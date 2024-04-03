@@ -110,14 +110,10 @@ public class UIMainMenuManager : MonoBehaviour
         mainMenu.SetActive(true);
     }
 
-    /*
-    public void LoadScene(string scene)
+    public void LoadMultiplayerLobbyScene()
     {
-        if (scene != "")
-        {
-            StartCoroutine(LoadAsynchronously(scene));
-        }
-    }*/
+        Loader.Load(Loader.Scene.LobbyListScene);
+    }
 
     public void DisablePlayMenu()
     {
