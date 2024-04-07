@@ -12,7 +12,9 @@ public class Loader
         MainMenuScene, //Main menu of the game
         LoadingScene, //Scene for when the game is loading
         LobbyListScene, //Scene for lobby creation and selection
-        LobbyScene //Scene for the pre-game lobby
+        LobbyScene, //Scene for the pre-game lobby
+
+        GameShowTest
     }
 
 
