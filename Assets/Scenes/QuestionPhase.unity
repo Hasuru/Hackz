@@ -834,31 +834,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 775378272}
-  - component: {fileID: 775378271}
+  - component: {fileID: 775378274}
+  - component: {fileID: 775378273}
   m_Layer: 0
-  m_Name: QuestionManager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &775378271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775378270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3c225fb31139c346a2c46e107cfb857, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  question: 
-  answers: []
-  questionText: {fileID: 715006140}
-  timerText: {fileID: 1216171086}
-  answersText: []
 --- !u!4 &775378272
 Transform:
   m_ObjectHideFlags: 0
@@ -874,6 +858,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &775378273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775378270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65be951e2f24b054fb4b7997f2239b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &775378274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775378270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c225fb31139c346a2c46e107cfb857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events: {fileID: 0}
 --- !u!1 &788916820
 GameObject:
   m_ObjectHideFlags: 0
