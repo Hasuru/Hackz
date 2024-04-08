@@ -825,6 +825,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 715006138}
   m_CullTransparentMesh: 1
+--- !u!1 &775378270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 775378272}
+  - component: {fileID: 775378271}
+  m_Layer: 0
+  m_Name: QuestionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &775378271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775378270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c225fb31139c346a2c46e107cfb857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  question: 
+  answers: []
+  questionText: {fileID: 715006140}
+  timerText: {fileID: 1216171086}
+  answersText: []
+--- !u!4 &775378272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775378270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1065.809, y: 385.56924, z: -83.95129}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &788916820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1137,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 120
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9d24e6b3ecd1d2b479a31d3d0e7b1f9e, type: 2}
   m_sharedMaterial: {fileID: 21148088844906328, guid: 9d24e6b3ecd1d2b479a31d3d0e7b1f9e, type: 2}
@@ -1526,4 +1575,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 963194228}
   - {fileID: 705507995}
+  - {fileID: 775378272}
   - {fileID: 1427192458}
