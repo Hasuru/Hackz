@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: 48ff856582557594bb1d0fbddd54c0c5
+  - enabled: 1
+    path: Assets/Scenes/GameShowTest.unity
+    guid: 700326f23b11e77438e77b29be159447
   m_configObjects: {}
