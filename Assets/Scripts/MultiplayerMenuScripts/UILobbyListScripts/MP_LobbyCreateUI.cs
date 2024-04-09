@@ -16,7 +16,6 @@ public class MP_LobbyCreateUI : MonoBehaviour
     [SerializeField] private Button publicPrivateButton;
     [SerializeField] private TextMeshProUGUI lobbyNameText;
     [SerializeField] private TextMeshProUGUI publicPrivateText;
-
     [SerializeField] private MP_LobbyListUI lobbyListUI;
 
 

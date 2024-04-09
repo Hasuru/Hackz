@@ -24,7 +24,7 @@ public class InGameUI : NetworkBehaviour
         fortuneWheel.SetActive(true);
 
         //Listen for the event of GameManager finishing loading
-        GameManager.Instance.OnGameLoaded += GameManager_OnGameLoaded;
+        MP_GameManager.Instance.OnGameLoaded += GameManager_OnGameLoaded;
     }
 
     public override void OnNetworkSpawn()

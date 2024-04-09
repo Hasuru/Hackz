@@ -5,9 +5,9 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : NetworkBehaviour
+public class MP_GameManager : NetworkBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static MP_GameManager Instance { get; private set; }
 
     [Header("VISUAL STUFF")]
     [SerializeField] private GameObject loadingUI;

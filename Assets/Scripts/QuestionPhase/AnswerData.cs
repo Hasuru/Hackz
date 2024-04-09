@@ -13,7 +13,7 @@ public class AnswerData : MonoBehaviour
   [SerializeField] Sprite checkedToggle;
 
   [Header("References")]
-  [SerializeField] GameEvents events;
+  [SerializeField] Q_GameEvents events;
 
   private RectTransform _rect;
   public RectTransform Rect
