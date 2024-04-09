@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class Q_GameManager : MonoBehaviour
 {
   Question[] _questions = null;
   public Question[] Questions { get { return _questions; } }
 
-  [SerializeField] GameEvents events = null;
+  [SerializeField] Q_GameEvents events = null;
 
   private List<AnswerData> PickedAnswers = new List<AnswerData>();
   private List<int> FinishedQuestions = new List<int>();

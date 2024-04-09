@@ -48,12 +48,12 @@ public struct UIElements
     public RectTransform FinishUIElements { get { return _finishUIElements; } }
 }
 
-public class UIManager : MonoBehaviour
+public class Q_UIManager : MonoBehaviour
 {
     public enum ResolutionScreenType { Correct, Incorrect, Finish }
 
     [Header("References")]
-    [SerializeField] GameEvents events;
+    [SerializeField] Q_GameEvents events;
 
     [Header("UI Elements (Prefabs)")]
     [SerializeField] AnswerData answerPrefab;
