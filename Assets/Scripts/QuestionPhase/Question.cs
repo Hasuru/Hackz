@@ -26,16 +26,12 @@ public class Question : ScriptableObject
   [SerializeField] private int _score = 10;
   public int Score { get { return _score; } }
 
-  public List<int> GetCorrectAnswers()
+  public int GetCorrectAnswer()
   {
-    List<int> CorrectAnswers = new List<int>();
     for (int i = 0; i < Answers.Length; i++)
-    {
       if (Answers[i].IsCorrect)
-        CorrectAnswers.Add(i);
-    }
-
-    return CorrectAnswers;
+        return i;
+    return -1;
   }
 }
 

@@ -15,9 +15,6 @@ public class Q_GameManager : MonoBehaviour
   void Start()
   {
     LoadQuestions();
-    
-    int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-    UnityEngine.Random.InitState(seed);
 
     foreach(Question question in Questions)
     {
@@ -35,6 +32,7 @@ public class Q_GameManager : MonoBehaviour
   void Display()
   {
     EraseAnswers();
+
     Question question = GetRandomQuestion();
     if (events.UpdateQuestionUI != null)
     {
@@ -48,7 +46,7 @@ public class Q_GameManager : MonoBehaviour
 
   Question GetRandomQuestion()
   {
-    int randomIndex = GetRandomQuestionIndex();
+    int randomIndex = 0;//GetRandomQuestionIndex();
     currentQuestion = randomIndex;
 
     return Questions[currentQuestion];

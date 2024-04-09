@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,11 +7,12 @@ public class AnswerData : MonoBehaviour
 {
   [Header("UI Elements")]
   [SerializeField] TextMeshProUGUI infoTextObject;
-  [SerializeField] Image toggle;
+  [SerializeField] TextMeshProUGUI infoLetter;
+  [SerializeField] Image selector;
 
   [Header("Textures")]
-  [SerializeField] Sprite uncheckedToggle;
-  [SerializeField] Sprite checkedToggle;
+  [SerializeField] Sprite selectedSprite;
+  [SerializeField] Sprite unselectedSprite;
 
   [Header("References")]
   [SerializeField] Q_GameEvents events;
@@ -37,6 +39,7 @@ public class AnswerData : MonoBehaviour
   public void UpdateData(string info, int index)
   {
     infoTextObject.text = info;
+    infoLetter.text = Char.ConvertFromUtf32('A' + index) + '.';
     _answerIndex = index;
   }
 
@@ -49,13 +52,11 @@ public class AnswerData : MonoBehaviour
   public void SwitchState()
   {
     Checked = !Checked;
-
-    if (events.UpdateQuestionAnswer != null)
-      events.UpdateQuestionAnswer(this);
+    events.UpdateQuestionAnswer?.Invoke(this);
   }
 
   void UpdateUI()
   {
-    toggle.sprite = (Checked) ? checkedToggle : uncheckedToggle;
+    selector.sprite = (Checked) ? selectedSprite : unselectedSprite;
   }
 }

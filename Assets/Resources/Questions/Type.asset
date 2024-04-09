@@ -10,9 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba2160b6014817c46a1acf4fdc6a1381, type: 3}
-  m_Name: Test
+  m_Name: Type
   m_EditorClassIdentifier: 
-  _info: Choose correct answer
+  _info: 10.0f represents a
   _timer: 0
-  _answers: []
+  _answers:
+  - _info: float
+    _isCorrect: 1
+  - _info: int
+    _isCorrect: 0
+  - _info: string
+    _isCorrect: 0
+  - _info: List<>
+    _isCorrect: 0
   _score: 10

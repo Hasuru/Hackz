@@ -62,7 +62,7 @@ public class Q_UIManager : MonoBehaviour
 
     [SerializeField] UIManagerParameter parameters;
 
-    List<AnswerData> currentAnswer = new List<AnswerData>();
+    AnswerData currentAnswer;
 
     void OnEnable()
     {
@@ -93,17 +93,14 @@ public class Q_UIManager : MonoBehaviour
             newAnswer.Rect.anchoredPosition = new Vector2(0, offset);
 
             offset -= (newAnswer.Rect.sizeDelta.y + parameters.Margins);
-            uiElements.AnswersContentArea.sizeDelta = new Vector2(uiElements.AnswersContentArea.sizeDelta.x, -offset);
+            //uiElements.AnswersContentArea.sizeDelta = new Vector2(uiElements.AnswersContentArea.sizeDelta.x, offset);
 
-            currentAnswer.Add(newAnswer);
+            currentAnswer = newAnswer;
         }
     }
 
     void EraseAnswers()
     {
-        foreach(AnswerData ans in currentAnswer)
-            Destroy(ans.gameObject);
-
-        currentAnswer.Clear();
+        Destroy(currentAnswer);
     }
 }
