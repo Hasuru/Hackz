@@ -16,10 +16,7 @@ public class Q_GameManager : MonoBehaviour
   {
     LoadQuestions();
 
-    foreach(Question question in Questions)
-    {
-      Debug.Log(question.Info);
-    }
+    Debug.Log(Questions.Length);
 
     Display();
   }
@@ -46,7 +43,7 @@ public class Q_GameManager : MonoBehaviour
 
   Question GetRandomQuestion()
   {
-    int randomIndex = 0;//GetRandomQuestionIndex();
+    int randomIndex = GetRandomQuestionIndex();
     currentQuestion = randomIndex;
 
     return Questions[currentQuestion];
