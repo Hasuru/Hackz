@@ -8,6 +8,7 @@ public class InGameUI : NetworkBehaviour
 {
     [Header("CANVAS")]
     [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject fortuneWheel;
 
     [Header("DATA STUFF")]
     [SerializeField] private TextMeshProUGUI testText;
@@ -20,6 +21,7 @@ public class InGameUI : NetworkBehaviour
         isGameLoaded = false;
 
         hud.SetActive(true);
+        fortuneWheel.SetActive(true);
 
         //Listen for the event of GameManager finishing loading
         GameManager.Instance.OnGameLoaded += GameManager_OnGameLoaded;
@@ -35,10 +37,11 @@ public class InGameUI : NetworkBehaviour
         
     }
 
+
     private void GameManager_OnGameLoaded(object sender, System.EventArgs e)
     {
         isGameLoaded = true;
-        SetHudIcons();
+        //SetHudIcons();
     }
 
     private void SetHudIcons()
