@@ -15,13 +15,16 @@ public class GameManager : MonoBehaviour
   void Start()
   {
     LoadQuestions();
+    
+    int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+    UnityEngine.Random.InitState(seed);
 
     foreach(Question question in Questions)
     {
       Debug.Log(question.Info);
     }
 
-    //Display();
+    Display();
   }
 
   public void EraseAnswers()
@@ -33,9 +36,9 @@ public class GameManager : MonoBehaviour
   {
     EraseAnswers();
     Question question = GetRandomQuestion();
-    if (events.updateQuestionUI != null)
+    if (events.UpdateQuestionUI != null)
     {
-      events.updateQuestionUI(question);
+      events.UpdateQuestionUI(question);
     }
     else
     {
