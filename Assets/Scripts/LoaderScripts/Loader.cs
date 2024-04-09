@@ -14,7 +14,9 @@ public class Loader
         LobbyListScene, //Scene for lobby creation and selection
         LobbyScene, //Scene for the pre-game lobby
 
-        GameShowTest
+        GameShowTest,
+
+        PhishingTopicScene
     }
 
 
