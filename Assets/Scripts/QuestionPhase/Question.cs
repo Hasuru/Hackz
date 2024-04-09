@@ -20,8 +20,8 @@ public class Question : ScriptableObject
   [SerializeField] private int _timer = 0;
   public int Timer { get { return _timer; } }
 
-  [SerializeField] List<Answer> _answers;
-  public List<Answer> Answers { get { return _answers; } }
+  [SerializeField] Answer[] _answers;
+  public Answer[] Answers { get { return _answers; } }
 
   [SerializeField] private int _score = 10;
   public int Score { get { return _score; } }
@@ -29,7 +29,7 @@ public class Question : ScriptableObject
   public List<int> GetCorrectAnswers()
   {
     List<int> CorrectAnswers = new List<int>();
-    for (int i = 0; i < Answers.Count; i++)
+    for (int i = 0; i < Answers.Length; i++)
     {
       if (Answers[i].IsCorrect)
         CorrectAnswers.Add(i);

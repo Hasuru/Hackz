@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameEvents : ScriptableObject
 {
     public delegate void UpdateQuestionUICallBack(Question question);
-    public UpdateQuestionUICallBack updateQuestionUI;
+    public UpdateQuestionUICallBack UpdateQuestionUI;
 
     public delegate void UpdateQuestionAnswerCallBack(AnswerData pickedAnswer);
     public UpdateQuestionAnswerCallBack UpdateQuestionAnswer;
@@ -17,5 +17,6 @@ public class GameEvents : ScriptableObject
     public delegate void ScoreUpdatedCallBack();
     public ScoreUpdatedCallBack ScoreUpdated;
 
-    private int CurrentFinalScore;
+    [HideInInspector]
+    public int CurrentFinalScore;
 }
