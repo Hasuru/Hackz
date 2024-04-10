@@ -53,6 +53,7 @@ public class AnswerData : MonoBehaviour
   {
     Checked = !Checked;
     events.UpdateQuestionAnswer?.Invoke(this);
+    Debug.Log("switched");
   }
 
   void UpdateUI()
