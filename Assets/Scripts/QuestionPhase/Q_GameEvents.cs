@@ -11,7 +11,7 @@ public class Q_GameEvents : ScriptableObject
     public delegate void UpdateQuestionAnswerCallBack(AnswerData pickedAnswer);
     public UpdateQuestionAnswerCallBack UpdateQuestionAnswer;
 
-    public delegate void DisplayResolutionScreenCallBack(Q_UIManager.ResolutionScreenType type);
+    public delegate void DisplayResolutionScreenCallBack(Q_UIManager.ResolutionScreenType type, int score);
     public DisplayResolutionScreenCallBack DisplayResolutionScreen;
 
     public delegate void ScoreUpdatedCallBack();
@@ -19,4 +19,6 @@ public class Q_GameEvents : ScriptableObject
 
     [HideInInspector]
     public int CurrentFinalScore;
+    [HideInInspector]
+    public int StartupHighScore;
 }
