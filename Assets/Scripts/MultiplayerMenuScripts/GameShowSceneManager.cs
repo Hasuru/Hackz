@@ -45,7 +45,7 @@ public class GameShowSceneManager : NetworkBehaviour
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         Debug.Log("Loaded");
-        SetInitialSettingsClientRpc();
+        //SetInitialSettingsClientRpc();
     }
 
     [ClientRpc]
