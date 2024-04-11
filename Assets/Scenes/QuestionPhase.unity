@@ -809,6 +809,7 @@ MonoBehaviour:
     _answersContentArea: {fileID: 224861882}
     _questionInfoText: {fileID: 715006140}
     _scoreText: {fileID: 1760325286}
+    _resolutionScreenAnimator: {fileID: 1550200467}
     _resolutionBG: {fileID: 1550200465}
     _resolutionStateInfo: {fileID: 1558486829}
     _resolutionScoreInfo: {fileID: 1496231521}
@@ -817,6 +818,9 @@ MonoBehaviour:
     _finishUIElements: {fileID: 860941780}
   parameters:
     _margins: 50
+    _correctBGColor: {r: 0.079522945, g: 0.82641506, b: 0.11857007, a: 0}
+    _incorrectBGColor: {r: 0.82641506, g: 0.11070844, b: 0.11070844, a: 0}
+    _finishBGColor: {r: 0, g: 0.45882353, b: 0.74509805, a: 1}
 --- !u!114 &775378274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,7 +1024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &826600894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1908,6 +1912,7 @@ GameObject:
   - component: {fileID: 1550200466}
   - component: {fileID: 1550200465}
   - component: {fileID: 1550200464}
+  - component: {fileID: 1550200467}
   m_Layer: 5
   m_Name: ResolutionScreen
   m_TagString: Untagged
@@ -1945,9 +1950,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550200462}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1550200465
 MonoBehaviour:
@@ -1987,6 +1992,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550200462}
   m_CullTransparentMesh: 1
+--- !u!95 &1550200467
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550200462}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f18c479d863b81642b584addedb9b814, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1558486827
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,9 +2557,9 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 775378272}
   - {fileID: 963194228}
   - {fileID: 705507995}
-  - {fileID: 775378272}
   - {fileID: 1427192458}
   - {fileID: 826600897}
   - {fileID: 1092041663}

@@ -11,11 +11,12 @@ public class AnswerData : MonoBehaviour
   [SerializeField] Image selector;
 
   [Header("Textures")]
-  [SerializeField] Sprite selectedSprite;
-  [SerializeField] Sprite unselectedSprite;
+  [SerializeField] Color selectedColor;
+  [SerializeField] Color idleColor;
 
   [Header("References")]
   [SerializeField] Q_GameEvents events;
+  [HideInInspector] Q_GameManager manager;
 
   private RectTransform _rect;
   public RectTransform Rect
@@ -36,6 +37,11 @@ public class AnswerData : MonoBehaviour
 
   private bool Checked = false;
 
+  void Awake()
+  {
+    manager = GameObject.Find("Managers").GetComponent<Q_GameManager>();
+  }
+
   public void UpdateData(string info, int index)
   {
     infoTextObject.text = info;
@@ -53,11 +59,16 @@ public class AnswerData : MonoBehaviour
   {
     Checked = !Checked;
     events.UpdateQuestionAnswer?.Invoke(this);
-    Debug.Log("switched");
+    if (manager != null)
+    {
+      manager.SetPickedAnswer(this);
+      manager.AcceptAnswer();
+    }
+    Debug.Log("manager null");
   }
 
   void UpdateUI()
   {
-    selector.sprite = (Checked) ? selectedSprite : unselectedSprite;
+    selector.color = (Checked) ? selectedColor : idleColor;
   }
 }

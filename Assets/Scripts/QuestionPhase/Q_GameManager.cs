@@ -11,6 +11,8 @@ public class Q_GameManager : MonoBehaviour
   [SerializeField] Q_GameEvents events = null;
 
   private AnswerData PickedAnswer = null;
+  public void SetPickedAnswer(AnswerData ans) { PickedAnswer = ans; }
+
   private List<int> FinishedQuestions = new List<int>();
   private int currentQuestion = 0;
 
@@ -65,9 +67,9 @@ public class Q_GameManager : MonoBehaviour
                 (isFinished) ? Q_UIManager.ResolutionScreenType.Finish 
                 : ((isCorrect) ? Q_UIManager.ResolutionScreenType.Correct : Q_UIManager.ResolutionScreenType.Incorrect);
 
-        events.DisplayResolutionScreen?.Invoke(type, Questions[currentQuestion].Score);
+    events.DisplayResolutionScreen?.Invoke(type, Questions[currentQuestion].Score);
 
-        if (IE_WaitForNextRound != null)
+    if (IE_WaitForNextRound != null)
       StopCoroutine(IE_WaitForNextRound);
     
     IE_WaitForNextRound = WaitForNextRound();
