@@ -1,31 +1,28 @@
-using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnswerData : MonoBehaviour
+public class AnswerData : MonoBehaviour 
 {
   [Header("UI Elements")]
-  [SerializeField] TextMeshProUGUI infoTextObject;
-  [SerializeField] TextMeshProUGUI infoLetter;
-  [SerializeField] Image selector;
+  [SerializeField] TextMeshProUGUI infoTextObject = null;
+  [SerializeField] TextMeshProUGUI letterTextObject = null;
+  [SerializeField] Image toggle = null;
 
   [Header("Textures")]
-  [SerializeField] Color selectedColor;
-  [SerializeField] Color idleColor;
+  [SerializeField] Color  uncheckedToggle;
+  [SerializeField] Color checkedToggle;
 
   [Header("References")]
-  [SerializeField] Q_GameEvents events;
-  [HideInInspector] Q_GameManager manager;
+  [SerializeField] Q_GameEvents events = null;
 
-  private RectTransform _rect;
-  public RectTransform Rect
+  private RectTransform _rect = null;
+  public  RectTransform Rect
   {
     get
     {
       if (_rect == null)
       {
-        // ?? -> returns the first if not null, otherwise reutrns the second
         _rect = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
       }
       return _rect;
@@ -37,38 +34,34 @@ public class AnswerData : MonoBehaviour
 
   private bool Checked = false;
 
-  void Awake()
-  {
-    manager = GameObject.Find("Managers").GetComponent<Q_GameManager>();
-  }
-
-  public void UpdateData(string info, int index)
+  public void UpdateData (string info, int index)
   {
     infoTextObject.text = info;
-    infoLetter.text = Char.ConvertFromUtf32('A' + index) + '.';
+    letterTextObject.text = ".";
     _answerIndex = index;
   }
 
-  public void Reset()
+  public void Reset ()
   {
     Checked = false;
     UpdateUI();
   }
 
-  public void SwitchState()
+  public void SwitchState ()
   {
     Checked = !Checked;
-    events.UpdateQuestionAnswer?.Invoke(this);
-    if (manager != null)
+    UpdateUI();
+
+    if (events.UpdateQuestionAnswer != null)
     {
-      manager.SetPickedAnswer(this);
-      manager.AcceptAnswer();
+      events.UpdateQuestionAnswer(this);
     }
-    Debug.Log("manager null");
   }
 
-  void UpdateUI()
+  void UpdateUI ()
   {
-    selector.color = (Checked) ? selectedColor : idleColor;
+    if (toggle == null) return;
+
+    toggle.color = (Checked) ? checkedToggle : uncheckedToggle;
   }
 }

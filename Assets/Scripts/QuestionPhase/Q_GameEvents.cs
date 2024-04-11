@@ -1,24 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameEvent", menuName = "Quizz/GameEvent")]
-public class Q_GameEvents : ScriptableObject
+[CreateAssetMenu(fileName = "GameEvents", menuName = "Quiz/new GameEvents")]
+public class Q_GameEvents : ScriptableObject 
 {
-    public delegate void UpdateQuestionUICallBack(Question question);
-    public UpdateQuestionUICallBack UpdateQuestionUI;
+    public delegate void UpdateQuestionUICallback (Question question);
+    public UpdateQuestionUICallback UpdateQuestionUI = null;
 
-    public delegate void UpdateQuestionAnswerCallBack(AnswerData pickedAnswer);
-    public UpdateQuestionAnswerCallBack UpdateQuestionAnswer;
+    public delegate void UpdateQuestionAnswerCallback (AnswerData pickedAnswer);
+    public UpdateQuestionAnswerCallback UpdateQuestionAnswer = null;
 
-    public delegate void DisplayResolutionScreenCallBack(Q_UIManager.ResolutionScreenType type, int score);
-    public DisplayResolutionScreenCallBack DisplayResolutionScreen;
+    public delegate void DisplayResolutionScreenCallback (Q_UIManager.ResolutionScreenType type, int score);
+    public DisplayResolutionScreenCallback DisplayResolutionScreen = null;
 
-    public delegate void ScoreUpdatedCallBack();
-    public ScoreUpdatedCallBack ScoreUpdated;
+    public delegate void ScoreUpdatedCallback();
+    public ScoreUpdatedCallback ScoreUpdated = null;
 
     [HideInInspector]
-    public int CurrentFinalScore;
+    public int CurrentFinalScore = 0;
     [HideInInspector]
-    public int StartupHighScore;
+    public int StartupHighscore = 0;
 }

@@ -804,7 +804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: fd55bd7b45f0d7446abf89829770adf4, type: 2}
-  answerPrefab: {fileID: 7287582616065701442, guid: 0f8a90e705c2a95488b9b2740160eb04, type: 3}
+  answerPrefab: {fileID: 6128233173921122492, guid: 185e5a92a17fd614f98366d7fd671933, type: 3}
   uiElements:
     _answersContentArea: {fileID: 224861882}
     _questionInfoText: {fileID: 715006140}
