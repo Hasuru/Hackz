@@ -14,5 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _info: 2+2
   _timer: 0
-  _answers: []
+  _answers:
+  - _info: 2
+    _isCorrect: 0
+  - _info: 4
+    _isCorrect: 1
+  - _info: 5
+    _isCorrect: 0
+  - _info: 3
+    _isCorrect: 0
   _score: 10

@@ -1,28 +1,28 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnswerData : MonoBehaviour
+public class AnswerData : MonoBehaviour 
 {
   [Header("UI Elements")]
-  [SerializeField] TextMeshProUGUI infoTextObject;
-  [SerializeField] Image toggle;
+  [SerializeField] TextMeshProUGUI infoTextObject = null;
+  [SerializeField] TextMeshProUGUI letterTextObject = null;
+  [SerializeField] Image toggle = null;
 
   [Header("Textures")]
-  [SerializeField] Sprite uncheckedToggle;
-  [SerializeField] Sprite checkedToggle;
+  [SerializeField] Color  uncheckedToggle;
+  [SerializeField] Color checkedToggle;
 
   [Header("References")]
-  [SerializeField] Q_GameEvents events;
+  [SerializeField] Q_GameEvents events = null;
 
-  private RectTransform _rect;
-  public RectTransform Rect
+  private RectTransform _rect = null;
+  public  RectTransform Rect
   {
     get
     {
       if (_rect == null)
       {
-        // ?? -> returns the first if not null, otherwise reutrns the second
         _rect = GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
       }
       return _rect;
@@ -34,28 +34,34 @@ public class AnswerData : MonoBehaviour
 
   private bool Checked = false;
 
-  public void UpdateData(string info, int index)
+  public void UpdateData (string info, int index)
   {
     infoTextObject.text = info;
+    letterTextObject.text = ".";
     _answerIndex = index;
   }
 
-  public void Reset()
+  public void Reset ()
   {
     Checked = false;
     UpdateUI();
   }
 
-  public void SwitchState()
+  public void SwitchState ()
   {
     Checked = !Checked;
+    UpdateUI();
 
     if (events.UpdateQuestionAnswer != null)
+    {
       events.UpdateQuestionAnswer(this);
+    }
   }
 
-  void UpdateUI()
+  void UpdateUI ()
   {
-    toggle.sprite = (Checked) ? checkedToggle : uncheckedToggle;
+    if (toggle == null) return;
+
+    toggle.color = (Checked) ? checkedToggle : uncheckedToggle;
   }
 }

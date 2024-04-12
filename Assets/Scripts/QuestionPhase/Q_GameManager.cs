@@ -1,70 +1,179 @@
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Q_GameManager : MonoBehaviour
+public class Q_GameManager : MonoBehaviour 
 {
-  Question[] _questions = null;
+  private Question[] _questions = null;
   public Question[] Questions { get { return _questions; } }
 
   [SerializeField] Q_GameEvents events = null;
 
-  private List<AnswerData> PickedAnswers = new List<AnswerData>();
+  [SerializeField] Animator timerAnimtor = null;
+  [SerializeField] TextMeshProUGUI timerText = null;
+  [SerializeField] Color timerHalfWayOutColor = Color.yellow;
+  [SerializeField] Color timerAlmostOutColor = Color.red;
+  private Color timerDefaultColor = Color.white;
+
+  private AnswerData PickedAnswer = null;
   private List<int> FinishedQuestions = new List<int>();
   private int currentQuestion = 0;
 
+  private int timerStateParaHash = 0;
+
+  private IEnumerator IE_WaitTillNextRound = null;
+  private IEnumerator IE_StartTimer = null;
+
+  private bool IsFinished
+  {
+    get
+    {
+      return FinishedQuestions.Count >= 4;
+    }
+  }
+
+  void OnEnable()
+  {
+    events.UpdateQuestionAnswer += UpdateAnswers;
+  }
+
+  void OnDisable()
+  {
+    events.UpdateQuestionAnswer -= UpdateAnswers;
+  }
+
+  void Awake()
+  {
+      events.CurrentFinalScore = 0;
+  }
+
   void Start()
   {
-    LoadQuestions();
-    
-    int seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-    UnityEngine.Random.InitState(seed);
+    events.StartupHighscore = PlayerPrefs.GetInt(Q_Utility.SavePrefKey);
 
-    foreach(Question question in Questions)
-    {
-      Debug.Log(question.Info);
-    }
+    timerDefaultColor = timerText.color;
+    LoadQuestions();
+
+    timerStateParaHash = Animator.StringToHash("TimerState");
+
+    var seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+    UnityEngine.Random.InitState(seed);
 
     Display();
   }
 
+  public void UpdateAnswers(AnswerData newAnswer)
+  {
+    PickedAnswer = newAnswer;
+  }
   public void EraseAnswers()
   {
-    PickedAnswers = new List<AnswerData>();
+    PickedAnswer = null;
   }
 
   void Display()
   {
     EraseAnswers();
-    Question question = GetRandomQuestion();
+    var question = GetRandomQuestion();
+
     if (events.UpdateQuestionUI != null)
     {
       events.UpdateQuestionUI(question);
-    }
-    else
+    } else { Debug.LogWarning("Ups! Something went wrong while trying to display new Question UI Data. Q_GameEvents.UpdateQuestionUI is null. Issue occured in GameManager.Display() method."); }
+
+    if (question.UseTimer)
     {
-      Debug.Log("Ups! Something went wrong while trying to display the question UI!");
+      UpdateTimer(question.UseTimer);
     }
   }
 
-  Question GetRandomQuestion()
+  public void Accept()
   {
-    int randomIndex = GetRandomQuestionIndex();
-    currentQuestion = randomIndex;
+    UpdateTimer(false);
+    bool isCorrect = CheckAnswers();
+    FinishedQuestions.Add(currentQuestion);
 
-    return Questions[currentQuestion];
-  }
+    UpdateScore((isCorrect) ? Questions[currentQuestion].AddScore : -Questions[currentQuestion].AddScore);
 
-  int GetRandomQuestionIndex()
-  {
-    int random = 0;
-    if (FinishedQuestions.Count < 4)
+    if (IsFinished)
     {
-      do
+      SetHighscore();
+    }
+
+    var type = (IsFinished) ? Q_UIManager.ResolutionScreenType.Finish 
+      : (isCorrect) ? Q_UIManager.ResolutionScreenType.Correct : Q_UIManager.ResolutionScreenType.Incorrect;
+
+    if (events.DisplayResolutionScreen != null)
+    {
+      events.DisplayResolutionScreen(type, Questions[currentQuestion].AddScore);
+    }
+
+    if (type != Q_UIManager.ResolutionScreenType.Finish)
+    {
+      if (IE_WaitTillNextRound != null)
       {
-        random = UnityEngine.Random.Range(0, Questions.Length);
-      } while (FinishedQuestions.Contains(random) || random == currentQuestion);
+        StopCoroutine(IE_WaitTillNextRound);
+      }
+      IE_WaitTillNextRound = WaitTillNextRound();
+      StartCoroutine(IE_WaitTillNextRound);
     }
-    return random;
+  }
+
+  void UpdateTimer(bool state)
+  {
+    switch (state)
+    {
+      case true:
+        IE_StartTimer = StartTimer();
+        StartCoroutine(IE_StartTimer);
+        timerAnimtor.SetInteger(timerStateParaHash, 2);
+        break;
+      case false:
+        if (IE_StartTimer != null)
+        {
+          StopCoroutine(IE_StartTimer);
+        }
+        timerAnimtor.SetInteger(timerStateParaHash, 1);
+        break;
+    }
+  }
+  IEnumerator StartTimer()
+  {
+    var totalTime = Questions[currentQuestion].Timer;
+    var timeLeft = totalTime;
+
+    timerText.color = timerDefaultColor;
+    while (timeLeft > 0)
+    {
+      timeLeft--;
+
+      if (timeLeft < totalTime / 2 && timeLeft > totalTime / 4)
+      {
+        timerText.color = timerHalfWayOutColor;
+      }
+      if (timeLeft < totalTime / 4)
+      {
+        timerText.color = timerAlmostOutColor;
+      }
+
+      timerText.text = timeLeft.ToString();
+      yield return new WaitForSeconds(1.0f);
+    }
+    Accept();
+  }
+  IEnumerator WaitTillNextRound()
+  {
+    yield return new WaitForSeconds(Q_Utility.ResolutionDelayTime);
+    Display();
+  }
+
+  bool CheckAnswers()
+  {
+    int correctIndex = Questions[currentQuestion].GetCorrectAnswer();
+    return correctIndex == PickedAnswer.AnswerIndex;
   }
 
   void LoadQuestions()
@@ -75,5 +184,54 @@ public class Q_GameManager : MonoBehaviour
     {
       _questions[i] = (Question)objs[i];
     }
+  }
+
+  public void RestartGame()
+  {
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+  }
+
+  public void QuitGame()
+  {
+    Application.Quit();
+  }
+
+  private void SetHighscore()
+  {
+    var highscore = PlayerPrefs.GetInt(Q_Utility.SavePrefKey);
+    if (highscore < events.CurrentFinalScore)
+    {
+      PlayerPrefs.SetInt(Q_Utility.SavePrefKey, events.CurrentFinalScore);
+    }
+  }
+
+  private void UpdateScore(int add)
+  {
+    events.CurrentFinalScore += add;
+
+    if (events.ScoreUpdated != null)
+    {
+      events.ScoreUpdated();
+    }
+  }
+
+  Question GetRandomQuestion()
+  {
+    var randomIndex = GetRandomQuestionIndex();
+    currentQuestion = randomIndex;
+
+    return Questions[currentQuestion];
+  }
+  int GetRandomQuestionIndex()
+  {
+    var random = 0;
+    if (FinishedQuestions.Count < Questions.Length)
+    {
+      do
+      {
+        random = UnityEngine.Random.Range(0, Questions.Length);
+      } while (FinishedQuestions.Contains(random) || random == currentQuestion);
+    }
+    return random;
   }
 }
