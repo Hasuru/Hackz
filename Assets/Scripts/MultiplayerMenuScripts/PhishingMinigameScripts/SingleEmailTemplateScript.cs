@@ -18,6 +18,7 @@ public class SingleEmailTemplateScript : MonoBehaviour
 
     [Header("Related UI")]
     [SerializeField] private GameObject emailWindowUI;
+    [SerializeField] private GameObject openedEmailTaskButton;
 
     [Header("Assets to use")]
     [SerializeField] private Sprite readTrueIcon;
@@ -25,14 +26,15 @@ public class SingleEmailTemplateScript : MonoBehaviour
     [SerializeField] private Sprite flaggedTrueIcon;
     [SerializeField] private Sprite flaggedFalseIcon;
 
-    private EmailData associatedEmail;
+    private EmailData associatedEmail = null;
 
-    private bool isRead;
-    private bool isFlagged;
+    private bool isRead = false;
+    private bool isFlagged = false;
 
 
     private void Awake()
     {
+
         flagButton.onClick.AddListener(() => {
             // Mark or de-mark as fraudulent
             MarkAsFlagged();
@@ -40,14 +42,8 @@ public class SingleEmailTemplateScript : MonoBehaviour
 
         templateButton.onClick.AddListener(() =>
         {
-            // Open the Email Window and send the email info to it
-            emailWindowUI.GetComponent<EmailWindowUI>().SetEmailInfo(associatedEmail);
-            emailWindowUI.gameObject.SetActive(true);
+            ClickEmail();
         });
-
-        associatedEmail = null;
-        isRead = false;
-        isFlagged = false;
 
         // Setting initial aspect
         Color whiteBackground = Color.white;
@@ -56,14 +52,23 @@ public class SingleEmailTemplateScript : MonoBehaviour
         readIcon.sprite = readFalseIcon;
     }
 
+
+    private void ClickEmail()
+    {
+        // Open the Email Window and send the email info to it
+        emailWindowUI.GetComponent<EmailWindowUI>().SetEmailInfo(associatedEmail);
+        emailWindowUI.SetActive(true);
+        openedEmailTaskButton.SetActive(true);
+    }
+
     public void AssociateEmail(EmailData email)
     {
         if (email != null)
         {
-            this.associatedEmail = email;
+            associatedEmail = email;
 
-            senderName.text = email.profileData.senderName;
-            subject.text = email.profileData.email;
+            senderName.text = associatedEmail.profileData.senderName;
+            subject.text = associatedEmail.profileData.email;
             dateReceived.text = "12/02/2000";
         }
     }

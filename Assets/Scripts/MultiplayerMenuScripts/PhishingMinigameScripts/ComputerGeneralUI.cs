@@ -8,23 +8,21 @@ public class ComputerGeneralUI : MonoBehaviour
     [Header("EmailListWindow UI")]
     [SerializeField] private GameObject emailListWindowUI;
     [SerializeField] private Button minimizeEmailListBtn;
-    [SerializeField] private Button emailListBtn;
+    [SerializeField] private Button emailListBtn; // Task Bar Button
 
     [Header("SuspectWindow UI")]
     [SerializeField] private GameObject suspectWindowUI;
     [SerializeField] private Button minimizeSuspectBtn;
-    [SerializeField] private Button suspectBtn;
+    [SerializeField] private Button suspectBtn; // Task Bar Button
 
     [Header("EmailOpenWindow UI")]
     [SerializeField] private GameObject emailOpenWindowUI;
     [SerializeField] private Button minimizeEmailBtn;
-    [SerializeField] private Button emailOpenBtn;
+    [SerializeField] private Button emailOpenBtn; // Task Bar Button
 
     private void Awake()
     {
-        emailListWindowUI.SetActive(true);
-        emailOpenWindowUI.SetActive(false);
-
+        // Button functions
         minimizeEmailListBtn.onClick.AddListener(() =>
         {
             emailListWindowUI.SetActive(false);
@@ -54,5 +52,17 @@ public class ComputerGeneralUI : MonoBehaviour
         {
             emailOpenWindowUI.SetActive(!emailOpenWindowUI.activeInHierarchy);
         });
+    }
+
+    private void Start()
+    {
+        // Set UI visability
+        emailListWindowUI.SetActive(true);
+        emailOpenWindowUI.SetActive(false);
+
+        // Set Task Bar Button visibility
+        emailListBtn.gameObject.SetActive(true);
+        suspectBtn.gameObject.SetActive(true);
+        emailOpenBtn.gameObject.SetActive(false);
     }
 }
