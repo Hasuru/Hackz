@@ -57,7 +57,7 @@ public class PhishingServerScript : NetworkBehaviour
 
             // Change the email info
             EmailData currentEmailInfo = emailList[i];
-
+            currentCreatedEmail.gameObject.GetComponent<SingleEmailTemplateScript>().AssociateEmail(currentEmailInfo);
 
 
             // Make the email visable

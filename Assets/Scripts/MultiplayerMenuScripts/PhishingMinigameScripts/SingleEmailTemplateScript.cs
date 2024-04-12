@@ -14,12 +14,18 @@ public class SingleEmailTemplateScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI subject;
     [SerializeField] private TextMeshProUGUI dateReceived;
     [SerializeField] private Button flagButton;
+    [SerializeField] private Button templateButton;
+
+    [Header("Related UI")]
+    [SerializeField] private GameObject emailWindowUI;
 
     [Header("Assets to use")]
     [SerializeField] private Sprite readTrueIcon;
     [SerializeField] private Sprite readFalseIcon;
     [SerializeField] private Sprite flaggedTrueIcon;
     [SerializeField] private Sprite flaggedFalseIcon;
+
+    private EmailData associatedEmail;
 
     private bool isRead;
     private bool isFlagged;
@@ -29,8 +35,17 @@ public class SingleEmailTemplateScript : MonoBehaviour
     {
         flagButton.onClick.AddListener(() => {
             // Mark or de-mark as fraudulent
+            MarkAsFlagged();
         });
 
+        templateButton.onClick.AddListener(() =>
+        {
+            // Open the Email Window and send the email info to it
+            emailWindowUI.GetComponent<EmailWindowUI>().SetEmailInfo(associatedEmail);
+            emailWindowUI.gameObject.SetActive(true);
+        });
+
+        associatedEmail = null;
         isRead = false;
         isFlagged = false;
 
@@ -39,11 +54,22 @@ public class SingleEmailTemplateScript : MonoBehaviour
         background.color = whiteBackground;
 
         readIcon.sprite = readFalseIcon;
+    }
 
+    public void AssociateEmail(EmailData email)
+    {
+        if (email != null)
+        {
+            this.associatedEmail = email;
+
+            senderName.text = email.profileData.senderName;
+            subject.text = email.profileData.email;
+            dateReceived.text = "12/02/2000";
+        }
     }
 
     
-    public void markAsFlagged()
+    public void MarkAsFlagged()
     {
         if (isFlagged) 
         {
@@ -61,7 +87,7 @@ public class SingleEmailTemplateScript : MonoBehaviour
         isFlagged = !isFlagged;
     }
 
-    public void markAsRead()
+    public void MarkAsRead()
     {
         if (!isRead)
         {
