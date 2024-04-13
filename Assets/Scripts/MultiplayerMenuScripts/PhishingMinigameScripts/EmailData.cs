@@ -11,15 +11,17 @@ public class EmailData
     public string receivedDate;
     public bool hasAttachment;
     public int attachmentIndex;
+    public bool isFraudulent;
 
 
-    public EmailData(Profile profileData, string subject, string receivedDate, string content, bool hasAttachment) 
+    public EmailData(Profile profileData, string subject, string receivedDate, string content, bool hasAttachment, bool isFraudulent) 
     {
         this.profileData = profileData;
         this.subject = subject;
         this.content = content;
         this.receivedDate = receivedDate;
         this.hasAttachment = hasAttachment;
+        this.isFraudulent = isFraudulent;
     }
 }
 

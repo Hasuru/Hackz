@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PhishingServerScript : NetworkBehaviour
@@ -17,27 +18,59 @@ public class PhishingServerScript : NetworkBehaviour
     [SerializeField] private Transform suspectContainer;
     [SerializeField] private Transform suspectSingleTemplate;
 
+    [Header("Suspect Related Container")]
+    [SerializeField] private TextMeshProUGUI timerText;
+
     private List<EmailData> emailList = new List<EmailData>();
     private List <SuspectData> suspectList = new List<SuspectData>();
+
+    private float totalTime = 300.0f; //5 minutes for now
+    private float currentTime;
+
 
     private void Awake()
     {
         Instance = this;
 
-        emailList = new List<EmailData>();
-
-        
+        emailList = new List<EmailData>();   
     }
 
     private void Start()
     {
         CreateEmailList();
         CreateSuspectsList();
+
+        // Timer countdown stuff
+        currentTime = totalTime;
+        StartCoroutine(CountdownTimer());
     }
 
     private void Update()
     {
         
+    }
+
+    IEnumerator CountdownTimer()
+    {
+        // Run while timer isnt 0
+        while (currentTime > 0)
+        {
+            UpdateTimerDisplay();
+            yield return new WaitForSeconds(1.0f); // Stop, wait a sec
+            currentTime -= 1.0f; // Decrease the current time by 1 sec
+        }
+
+        // When Timer reaches zero actions:
+        currentTime = 0;
+        UpdateTimerDisplay();
+        Debug.Log("Timer End");
+    }
+
+    void UpdateTimerDisplay()
+    {
+        int minutes = Mathf.FloorToInt(currentTime / 60);
+        int seconds = Mathf.FloorToInt(currentTime % 60);
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     private void CreateEmailList()
@@ -86,16 +119,16 @@ public class PhishingServerScript : NetworkBehaviour
         Profile profile3 = new Profile("C", "c@gmail.com", 1, "12/12/2012");
         Profile profile4 = new Profile("D", "d@gmail.com", 1, "12/12/2012");
 
-        EmailData email1 = new EmailData(profile1, "subject1", "12/12/2024", "content1", true);
-        EmailData email2 = new EmailData(profile1, "subject2", "12/12/2024", "content2", true);
-        EmailData email3 = new EmailData(profile1, "subject3", "12/12/2024", "content3", true);
-        EmailData email4 = new EmailData(profile2, "subject4", "12/12/2024", "content4", false);
-        EmailData email5 = new EmailData(profile2, "subject5", "12/12/2024", "content5", false);
-        EmailData email6 = new EmailData(profile2, "subject6", "12/12/2024", "content6", false);
-        EmailData email7 = new EmailData(profile3, "subject7", "12/12/2024", "content7", true);
-        EmailData email8 = new EmailData(profile3, "subject8", "12/12/2024", "content8", true);
-        EmailData email9 = new EmailData(profile3, "subject9", "12/12/2024", "content9", true);
-        EmailData email10 = new EmailData(profile4, "subject10", "12/12/2024", "content10", true);
+        EmailData email1 = new EmailData(profile1, "subject1", "12/12/2024", "content1", true, true);
+        EmailData email2 = new EmailData(profile1, "subject2", "12/12/2024", "content2", true, true);
+        EmailData email3 = new EmailData(profile1, "subject3", "12/12/2024", "content3", true, true);
+        EmailData email4 = new EmailData(profile2, "subject4", "12/12/2024", "content4", false, true);
+        EmailData email5 = new EmailData(profile2, "subject5", "12/12/2024", "content5", false, false);
+        EmailData email6 = new EmailData(profile2, "subject6", "12/12/2024", "content6", false, false);
+        EmailData email7 = new EmailData(profile3, "subject7", "12/12/2024", "content7", true, false);
+        EmailData email8 = new EmailData(profile3, "subject8", "12/12/2024", "content8", true, false);
+        EmailData email9 = new EmailData(profile3, "subject9", "12/12/2024", "content9", true, false);
+        EmailData email10 = new EmailData(profile4, "subject10", "12/12/2024", "content10", true, false);
 
         emailList.Add(email1);
         emailList.Add(email2);
@@ -144,10 +177,10 @@ public class PhishingServerScript : NetworkBehaviour
 
     private void CreateSuspectInfoStatic()
     {
-        SuspectData sus1 = new SuspectData("John", "Tiger", "12/02/2000");
-        SuspectData sus2 = new SuspectData("Carla", "Marla", "12/02/2000");
-        SuspectData sus3 = new SuspectData("Josh", "Denver", "12/02/2000");
-        SuspectData sus4 = new SuspectData("Michael", "Philips", "12/02/2000");
+        SuspectData sus1 = new SuspectData("John", "Tiger", "12/02/2000", true);
+        SuspectData sus2 = new SuspectData("Carla", "Marla", "12/02/2000", false);
+        SuspectData sus3 = new SuspectData("Josh", "Denver", "12/02/2000", false);
+        SuspectData sus4 = new SuspectData("Michael", "Philips", "12/02/2000", false);
 
         suspectList.Add(sus1);
         suspectList.Add(sus2);

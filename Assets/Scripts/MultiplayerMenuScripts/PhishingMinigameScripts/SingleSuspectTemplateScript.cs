@@ -19,7 +19,23 @@ public class SingleSuspectTemplateScript : MonoBehaviour
 
     private SuspectData associatedSuspect = null;
 
-    private bool isFlagged = false;
+
+    private void Awake()
+    {
+        templateButton.onClick.AddListener(() =>
+        {
+            if(associatedSuspect != null)
+            {
+                if (associatedSuspect.isHacker)
+                {
+                    Debug.Log("Congratz!");
+                } else
+                {
+                    Debug.Log("You wrong dummie...");
+                }
+            }
+        });
+    }
 
     public void AssociateSuspect(SuspectData sussy)
     {

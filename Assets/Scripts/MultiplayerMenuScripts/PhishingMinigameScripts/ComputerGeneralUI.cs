@@ -59,6 +59,7 @@ public class ComputerGeneralUI : MonoBehaviour
         // Set UI visability
         emailListWindowUI.SetActive(true);
         emailOpenWindowUI.SetActive(false);
+        suspectWindowUI.SetActive(false);
 
         // Set Task Bar Button visibility
         emailListBtn.gameObject.SetActive(true);
