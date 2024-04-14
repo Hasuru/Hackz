@@ -125,7 +125,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6128233173921122492}
         m_TargetAssemblyTypeName: AnswerData, Assembly-CSharp
-        m_MethodName: LockAnswer
+        m_MethodName: SwitchState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -148,10 +148,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoTextObject: {fileID: 5366098363393441011}
-  infoLetter: {fileID: 95224937071577015}
-  selector: {fileID: 353836489618338525}
-  selectedColor: {r: 0, g: 0.45882353, b: 0.74509805, a: 1}
-  idleColor: {r: 1, g: 1, b: 1, a: 0}
+  letterTextObject: {fileID: 95224937071577015}
+  toggle: {fileID: 353836489618338525}
+  uncheckedToggle: {r: 0.96981126, g: 0.96981126, b: 0.96981126, a: 0}
+  checkedToggle: {r: 0.21732287, g: 0.32498416, b: 0.8792453, a: 0}
   events: {fileID: 11400000, guid: fd55bd7b45f0d7446abf89829770adf4, type: 2}
 --- !u!1 &3703428310541007265
 GameObject:
