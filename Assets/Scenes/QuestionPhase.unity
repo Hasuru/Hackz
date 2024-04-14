@@ -805,22 +805,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: fd55bd7b45f0d7446abf89829770adf4, type: 2}
   answerPrefab: {fileID: 6128233173921122492, guid: 185e5a92a17fd614f98366d7fd671933, type: 3}
-  uiElements:
-    _answersContentArea: {fileID: 224861882}
-    _questionInfoText: {fileID: 715006140}
-    _scoreText: {fileID: 1760325286}
-    _resolutionScreenAnimator: {fileID: 1550200467}
-    _resolutionBG: {fileID: 1550200465}
-    _resolutionStateInfo: {fileID: 1558486829}
-    _resolutionScoreInfo: {fileID: 1496231521}
-    _highScoreText: {fileID: 822485139}
-    _mainCanvas: {fileID: 1427192459}
-    _finishUIElements: {fileID: 860941780}
+  uIElements:
+    answersContentArea: {fileID: 224861882}
+    questionInfoTextObject: {fileID: 715006140}
+    scoreText: {fileID: 1760325286}
+    resolutionScreenAnimator: {fileID: 0}
+    resolutionBG: {fileID: 1550200465}
+    resolutionStateInfoText: {fileID: 1558486829}
+    resolutionScoreText: {fileID: 1496231521}
+    highScoreText: {fileID: 822485139}
+    mainCanvasGroup: {fileID: 1427192459}
+    finishUIElements: {fileID: 860941780}
   parameters:
-    _margins: 50
-    _correctBGColor: {r: 0.079522945, g: 0.82641506, b: 0.11857007, a: 0}
-    _incorrectBGColor: {r: 0.82641506, g: 0.11070844, b: 0.11070844, a: 0}
-    _finishBGColor: {r: 0, g: 0.45882353, b: 0.74509805, a: 1}
+    margins: 50
+    correctBGColor: {r: 0.15295827, g: 0.81886786, b: 0.18689021, a: 0}
+    incorrectBGColor: {r: 0.78113204, g: 0.14001414, b: 0.14001414, a: 0}
+    finalBGColor: {r: 0.21080092, g: 0.32679683, b: 0.8037735, a: 0}
 --- !u!114 &775378274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -834,6 +834,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events: {fileID: 11400000, guid: fd55bd7b45f0d7446abf89829770adf4, type: 2}
+  timerAnimtor: {fileID: 0}
+  timerText: {fileID: 1216171086}
+  timerHalfWayOutColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  timerAlmostOutColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &788916820
 GameObject:
   m_ObjectHideFlags: 0
