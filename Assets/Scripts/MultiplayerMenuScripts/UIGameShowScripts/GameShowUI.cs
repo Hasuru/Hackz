@@ -4,7 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class InGameUI : NetworkBehaviour
+public class GameShowUI : NetworkBehaviour
 {
     [Header("CANVAS")]
     [SerializeField] private GameObject hud;
@@ -24,7 +24,7 @@ public class InGameUI : NetworkBehaviour
         fortuneWheel.SetActive(true);
 
         //Listen for the event of GameManager finishing loading
-        MP_GameManager.Instance.OnGameLoaded += GameManager_OnGameLoaded;
+        GameShowSceneManager.Instance.OnGameLoaded += GameManager_OnGameLoaded;
     }
 
     public override void OnNetworkSpawn()

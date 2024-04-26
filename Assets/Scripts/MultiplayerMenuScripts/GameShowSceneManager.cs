@@ -5,9 +5,9 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class MP_GameManager : NetworkBehaviour
+public class GameShowSceneManager : NetworkBehaviour
 {
-    public static MP_GameManager Instance { get; private set; }
+    public static GameShowSceneManager Instance { get; private set; }
 
     [Header("VISUAL STUFF")]
     [SerializeField] private GameObject loadingUI;
@@ -45,7 +45,7 @@ public class MP_GameManager : NetworkBehaviour
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         Debug.Log("Loaded");
-        SetInitialSettingsClientRpc();
+        //SetInitialSettingsClientRpc();
     }
 
     [ClientRpc]
