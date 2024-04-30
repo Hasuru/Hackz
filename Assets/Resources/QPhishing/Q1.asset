@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba2160b6014817c46a1acf4fdc6a1381, type: 3}
-  m_Name: Quizz
+  m_Name: Q1
   m_EditorClassIdentifier: 
   _questionCategory: 0
-  _questionInfo: test question
-  _questionTimer: 0
+  _questionInfo: Thy question
+  _questionTimer: 10
   _questionPoints: 0
   _correctAnswerId: 0
   _answers:
-  - correct one
-  - also correct
+  - correct answer
+  - no, THIS is the answer
   - definitely correct
   - wrong

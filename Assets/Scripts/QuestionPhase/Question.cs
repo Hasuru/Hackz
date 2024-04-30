@@ -7,6 +7,7 @@ public class Question : ScriptableObject
 {
     [Header("Question General Information")]
     [SerializeField] CategoryType _questionCategory;
+    public CategoryType QuestionCategory { get { return _questionCategory; } }
     [SerializeField] string _questionInfo;
     public string QuestionInfo { get { return _questionInfo; } }
     [SerializeField] int _questionTimer;
