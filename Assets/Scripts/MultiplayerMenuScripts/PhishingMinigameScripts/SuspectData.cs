@@ -8,12 +8,18 @@ public class SuspectData
     public string lastName;
     public string birthDate;
     public bool isHacker;
+    public int[] puzzlePieces;
 
-    public SuspectData(string firstName, string lastName, string birthDate, bool isHacker)
+    public SuspectData(string firstName, string lastName, string birthDate, int[] puzzlePieces)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
+        this.puzzlePieces = puzzlePieces;
+    }
+
+    public void ChangeIsHacker(bool isHacker)
+    {
         this.isHacker = isHacker;
     }
 }
