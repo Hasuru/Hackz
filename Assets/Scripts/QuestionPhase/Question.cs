@@ -1,46 +1,24 @@
-﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable()]
-public struct Answer
+[CreateAssetMenu(fileName = "Quizz", menuName = "Questions/New Question")]
+public class Question : ScriptableObject
 {
-  [SerializeField] private string _info;
-  public string Info { get { return _info; } }
-
-  [SerializeField] private bool _isCorrect;
-  public bool IsCorrect { get { return _isCorrect; } }
-}
-
-[CreateAssetMenu(fileName = "New Question", menuName = "Quiz/new Question")]
-public class Question : ScriptableObject 
-{
-  [SerializeField] private String _info = String.Empty;
-  public String Info { get { return _info; } }
-  [SerializeField] Answer[] _answers = null;
-  public Answer[] Answers { get { return _answers; } }
-
-  //Parameters
-
-  [SerializeField] private bool _useTimer = false;
-  public bool UseTimer { get { return _useTimer; } }
-
-  [SerializeField] private int _timer = 0;
-  public int Timer { get { return _timer; } }
-
-  [SerializeField] private int _addScore = 10;
-  public int AddScore { get { return _addScore; } }
+    [Header("Question General Information")]
+    [SerializeField] CategoryType _questionCategory;
+    public CategoryType QuestionCategory { get { return _questionCategory; } }
+    [SerializeField] string _questionInfo;
+    public string QuestionInfo { get { return _questionInfo; } }
+    [SerializeField] int _questionTimer;
+    public int QuestionTimer { get { return _questionTimer; } }
+    [SerializeField] int _questionPoints;
+    public int QuestionPoints { get { return _questionPoints; } }
 
 
-  public int GetCorrectAnswer()
-  {
-    for (int i = 0; i < Answers.Length; i++)
-    {
-      if (Answers[i].IsCorrect)
-      {
-        return i;
-      }
-    }
-    return -1;
-  }
+    [Header("Answer General Information")]
+    [SerializeField] int _correctAnswerId;
+    public int CorrectAnswerId { get { return _correctAnswerId; } }
+    [SerializeField] string[] _answers;
+    public string[] Answers { get { return _answers;} }
 }

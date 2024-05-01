@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba2160b6014817c46a1acf4fdc6a1381, type: 3}
-  m_Name: Math
+  m_Name: Q1
   m_EditorClassIdentifier: 
-  _info: 2+2
-  _timer: 0
+  _questionCategory: 0
+  _questionInfo: Phishing is
+  _questionTimer: 25
+  _questionPoints: 16
+  _correctAnswerId: 1
   _answers:
-  - _info: 2
-    _isCorrect: 0
-  - _info: 4
-    _isCorrect: 1
-  - _info: 5
-    _isCorrect: 0
-  - _info: 3
-    _isCorrect: 0
-  _score: 10
+  - Malware
+  - Impersonification
+  - Cryptocurrency
+  - A bot
