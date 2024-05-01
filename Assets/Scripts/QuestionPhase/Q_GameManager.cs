@@ -129,6 +129,8 @@ public class Q_GameManager : MonoBehaviour
         }
     }
 
+    public void Close() { Application.Quit(); }
+
     public void AddTime() 
     { 
         if (_powerUps[0] <= 0 || alreadyUsed) return;
