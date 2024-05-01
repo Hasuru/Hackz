@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -30,11 +31,11 @@ public class Q_GameManager : MonoBehaviour
     [HideInInspector] float _timer;
 
     private bool isRunning = true;
+    private bool isReseting = false;
     private int questionCount = 0;
 
     public void Start()
     {
-        _gameState = GameState.CHOOSING;
         // Question Load
         _questions = Resources.LoadAll<Question>("QPhishing");
         LoadNewQuestion();
@@ -60,19 +61,22 @@ public class Q_GameManager : MonoBehaviour
             
             case GameState.LOCKED:
                 if (isRunning)
+                {
                     _gameState = GameState.SWITCH;
+                    isReseting = true;
+                }
                 else
+                {
                     StartCoroutine(Freeze(2));
+                }
                 break;
 
             case GameState.SWITCH:
-                if (questionCount < 4)
+                if (isReseting)
                 {
-                    _uiManager.UnblockButtons();
-                    questionCount++;
+                    StartCoroutine(RefreshQuestion());
+                    isReseting = false;
                 }
-                else
-                    _gameState = GameState.FINISHED;
                 break;
             
             case GameState.FINISHED:
@@ -82,6 +86,8 @@ public class Q_GameManager : MonoBehaviour
 
     public void LoadNewQuestion()
     {
+        _gameState = GameState.CHOOSING;
+
         _currentQuestion = _questions[Random.Range(0, _questions.Length - 1)];
         _uiManager.Show(_currentQuestion);
         _currentAnswer = -1;
@@ -121,5 +127,22 @@ public class Q_GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);
         isRunning = true;
+    }
+
+    private IEnumerator RefreshQuestion()
+    {
+        if (questionCount < 4)
+        {
+            LoadNewQuestion();
+            _uiManager.ResetButtonColors(new Color(0, 255, 255), new Color(255, 171, 0));
+            _uiManager.UnblockButtons();
+            questionCount++;
+        }
+        else
+        {
+            _gameState = GameState.FINISHED;   
+        }
+        
+        yield return new WaitForSeconds(0);
     }
 }

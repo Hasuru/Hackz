@@ -40,13 +40,23 @@ public class Q_UIManager : MonoBehaviour
 
     public void UpdateQuestionText()
     {
-        _questionCategory.text = CurrentQuestion.QuestionCategory.ToString();
-        _questionText.text = CurrentQuestion.QuestionInfo;
+        _questionCategory.text = _currentQuestion.QuestionCategory.ToString();
+        _questionText.text = _currentQuestion.QuestionInfo;
         for (int i = 0; i < _answersText.Length; i++)
-            _answersText[i].text = CurrentQuestion.Answers[i];
+            _answersText[i].text = _currentQuestion.Answers[i];
     }
 
-    public void UpdateTimer(int timer) { _timer.text = timer.ToString(); }
+    public void UpdateTimer(int timer) 
+    { 
+        _timer.text = timer.ToString();
+        
+        if (timer > 5 && timer <= 10)
+            _timer.color = Color.yellow;
+        else if (timer <= 5)
+            _timer.color = Color.red;
+        else
+            _timer.color = Color.white; 
+    }
 
     public void ShowAnswerResultColor(int i, Color color)
     {
@@ -55,6 +65,18 @@ public class Q_UIManager : MonoBehaviour
         cb.highlightedColor = color;
         cb.selectedColor = color;
         _answerButtons[i].colors = cb;
+    }
+
+    public void ResetButtonColors(Color normalColor, Color highlightedColor)
+    {
+        foreach (Button b in _answerButtons)
+        {
+            ColorBlock cb = b.colors;
+            cb.normalColor = normalColor;
+            cb.highlightedColor = highlightedColor;
+            cb.selectedColor = highlightedColor;
+            b.colors = cb;
+        }
     }
 
     public void BlockButtons()
