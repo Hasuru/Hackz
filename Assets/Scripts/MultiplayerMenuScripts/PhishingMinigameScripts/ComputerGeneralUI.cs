@@ -20,6 +20,11 @@ public class ComputerGeneralUI : MonoBehaviour
     [SerializeField] private Button minimizeEmailBtn;
     [SerializeField] private Button emailOpenBtn; // Task Bar Button
 
+    [Header("PuzzleWindow UI")]
+    [SerializeField] private GameObject puzzleWindowUI;
+    [SerializeField] private Button minimizePuzzleBtn;
+    [SerializeField] private Button emailPuzzleBtn; // Task Bar Button
+
     private void Awake()
     {
         // Button functions
@@ -60,6 +65,7 @@ public class ComputerGeneralUI : MonoBehaviour
         emailListWindowUI.SetActive(true);
         emailOpenWindowUI.SetActive(false);
         suspectWindowUI.SetActive(false);
+        puzzleWindowUI.SetActive(false);
 
         // Set Task Bar Button visibility
         emailListBtn.gameObject.SetActive(true);

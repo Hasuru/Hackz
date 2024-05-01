@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EmailType
+{
+    Fraudulent,
+    Authentic,
+    Bonus
+}
+
 public class EmailData
 {
     public Profile profileData;
@@ -10,18 +17,25 @@ public class EmailData
     public string content;
     public string receivedDate;
     public bool hasAttachment;
-    public int attachmentIndex;
-    public bool isFraudulent;
+    public EmailType type;
 
 
-    public EmailData(Profile profileData, string subject, string receivedDate, string content, bool hasAttachment, bool isFraudulent) 
+    public EmailData(Profile profileData, string subject, string receivedDate, string content, EmailType type) 
     {
         this.profileData = profileData;
         this.subject = subject;
         this.content = content;
         this.receivedDate = receivedDate;
-        this.hasAttachment = hasAttachment;
-        this.isFraudulent = isFraudulent;
+        this.type = type;
+
+        if (type == EmailType.Bonus)
+        {
+            this.hasAttachment = false;
+        }
+        else
+        {
+            this.hasAttachment = true;
+        }
     }
 }
 

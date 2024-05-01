@@ -1447,6 +1447,9 @@ MonoBehaviour:
   emailOpenWindowUI: {fileID: 2094619412}
   minimizeEmailBtn: {fileID: 1628710294}
   emailOpenBtn: {fileID: 355054335}
+  puzzleWindowUI: {fileID: 581552654}
+  minimizePuzzleBtn: {fileID: 1042545073}
+  emailPuzzleBtn: {fileID: 0}
 --- !u!1 &245080040
 GameObject:
   m_ObjectHideFlags: 0
@@ -10967,6 +10970,13 @@ MonoBehaviour:
   dateReceivedText: {fileID: 318667727}
   contentText: {fileID: 1497311934}
   attachmentButton: {fileID: 1901947984}
+  puzzleUI: {fileID: 581552654}
+  sprite1: {fileID: 21300000, guid: 7e4a7e6f3ca4ad74bb35287cb1f8cf88, type: 3}
+  sprite2: {fileID: 21300000, guid: cdcfd72a98efdad409d8edd65de81072, type: 3}
+  sprite3: {fileID: 21300000, guid: b7dbdc14434e6cd40b13c262e3ac7d6f, type: 3}
+  sprite4: {fileID: 21300000, guid: 26b326eb79e5e314fb5cfd327119390d, type: 3}
+  sprite5: {fileID: 21300000, guid: 2aacce77728d1634bad259542a146eda, type: 3}
+  sprite6: {fileID: 21300000, guid: ca3c516af74af764a8f5025cace763f8, type: 3}
 --- !u!1 &2112131160
 GameObject:
   m_ObjectHideFlags: 0
