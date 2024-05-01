@@ -29,6 +29,9 @@ public class Q_UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] _answersText;
     public TextMeshProUGUI[] AnswersText { get { return _answersText; } }
 
+    [SerializeField] TextMeshProUGUI[] _powerUpText;
+    public TextMeshProUGUI[] PowerUpText { get { return _powerUpText; } }
+
     public void Show(Question q)
     {
         _currentQuestion = q;
@@ -37,6 +40,12 @@ public class Q_UIManager : MonoBehaviour
     }
 
     public void UpdatePoints() { PointsText.text = "Points: "  + _gameManager.Points.ToString(); }
+
+    public void UpdatePowerUp()
+    {
+        for (int i = 0; i < _powerUpText.Length; i++)
+            _powerUpText[i].text = _gameManager.PowerUps[i].ToString();
+    }
 
     public void UpdateQuestionText()
     {
@@ -83,6 +92,17 @@ public class Q_UIManager : MonoBehaviour
     {
         foreach(Button b in _answerButtons)
             b.enabled= false;
+    }
+
+    public void BlockButton(int index)
+    {
+        _answerButtons[index].enabled = false;
+        ColorBlock cb = _answerButtons[index].colors;
+        cb.normalColor = new Color(0, 0, 0);
+        cb.highlightedColor = new Color(0, 0, 0);
+        cb.selectedColor = new Color(0, 0, 0);
+        _answerButtons[index].colors = cb;
+
     }
 
     public void UnblockButtons()

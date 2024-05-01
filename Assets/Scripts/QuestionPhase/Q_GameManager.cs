@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Threading;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
@@ -24,6 +26,9 @@ public class Q_GameManager : MonoBehaviour
     [SerializeField] int _points;
     public int Points { get { return _points; } }
 
+    [SerializeField] int[] _powerUps;
+    public int[] PowerUps { get { return _powerUps; } }
+
     [HideInInspector] GameState _gameState;
     [HideInInspector] Question[] _questions;
     [HideInInspector] Question _currentQuestion;
@@ -32,6 +37,7 @@ public class Q_GameManager : MonoBehaviour
 
     private bool isRunning = true;
     private bool isReseting = false;
+    private bool alreadyUsed = false;
     private int questionCount = 0;
 
     public void Start()
@@ -39,6 +45,7 @@ public class Q_GameManager : MonoBehaviour
         // Question Load
         _questions = Resources.LoadAll<Question>("QPhishing");
         LoadNewQuestion();
+        _uiManager.UpdatePowerUp();
     }
 
     public void Update()
@@ -93,6 +100,7 @@ public class Q_GameManager : MonoBehaviour
         _currentAnswer = -1;
 
         _timer = _currentQuestion.QuestionTimer;
+        alreadyUsed = false;
     }
 
     public void ChangeCurrentAnswer(int index) 
@@ -121,6 +129,32 @@ public class Q_GameManager : MonoBehaviour
         }
     }
 
+    public void AddTime() 
+    { 
+        if (_powerUps[0] <= 0 || alreadyUsed) return;
+
+        _timer += 20;
+        _powerUps[0]--;
+        _uiManager.UpdatePowerUp();
+        alreadyUsed = true; 
+    }
+
+    public void CutChoice()
+    {
+        if (_powerUps[1] <= 0) return;
+
+        int index = -1;
+        do
+        {
+            index = Random.Range(0, _currentQuestion.Answers.Length - 1);
+        } while (index == _currentQuestion.CorrectAnswerId);
+
+        _uiManager.BlockButton(index);
+        _powerUps[1]--;
+        _uiManager.UpdatePowerUp();
+    }
+
+    // PRIVATE FUNCTIONS
     private bool CheckCorrectAnswer() { return _currentAnswer == _currentQuestion.CorrectAnswerId; }
 
     private IEnumerator Freeze(int sec)
