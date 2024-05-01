@@ -15,8 +15,8 @@ MonoBehaviour:
   _questionCategory: 0
   _questionInfo: Thy question
   _questionTimer: 10
-  _questionPoints: 0
-  _correctAnswerId: 0
+  _questionPoints: 16
+  _correctAnswerId: 3
   _answers:
   - correct answer
   - no, THIS is the answer
