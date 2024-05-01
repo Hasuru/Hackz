@@ -30,8 +30,13 @@ public class EmailWindowUI : MonoBehaviour
     [SerializeField] private Sprite sprite5;
     [SerializeField] private Sprite sprite6;
 
-
     private EmailData associatedEmail;
+
+    private float moveSpeed = 0.1f;
+    private float maxDeltaX = 10f;
+    private float maxDeltaY = 10f;
+
+    private bool isMessingWithCursor = false;
 
 
     private void Awake()
@@ -48,7 +53,7 @@ public class EmailWindowUI : MonoBehaviour
      * */
     private void DownloadAttachment()
     {
-        if (associatedEmail == null)
+        if (associatedEmail != null)
         {
             // If the associated Email is authentic (has attachment), give authentic puzzle piece
             if (associatedEmail.type == EmailType.Authentic)
@@ -56,19 +61,19 @@ public class EmailWindowUI : MonoBehaviour
                 switch (PhishingServerScript.Instance.AuthenticEmailsDownloaded())
                 {
                     case 0:
-                        SetPuzzlePiece(1);
+                        SetPuzzlePiece(0);
                         PhishingServerScript.Instance.IncrementAuthentic();
                         break;
                     case 1:
-                        SetPuzzlePiece(2);
+                        SetPuzzlePiece(1);
                         PhishingServerScript.Instance.IncrementAuthentic();
                         break;
                     case 2:
-                        SetPuzzlePiece(3);
+                        SetPuzzlePiece(2);
                         PhishingServerScript.Instance.IncrementAuthentic();
                         break;
                     case 3:
-                        SetPuzzlePiece(4);
+                        SetPuzzlePiece(3);
                         PhishingServerScript.Instance.IncrementAuthentic();
                         break;
                     default:
@@ -76,7 +81,6 @@ public class EmailWindowUI : MonoBehaviour
                         PhishingServerScript.Instance.IncrementAuthentic();
                         break;
                 }
-
                 puzzleUI.SetActive(true);
             }
             // If associated email is fraudulent, check amount of fraudulents downloaded until now and decide on what to do
@@ -84,13 +88,13 @@ public class EmailWindowUI : MonoBehaviour
             {
                 switch (PhishingServerScript.Instance.FraudulentEmailsDownloaded())
                 {
-                    case 1:
+                    case 0:
                         SetFraudPiece();
                         break;
-                    case 2:
+                    case 1:
                         //SetDebuff();
                         break;
-                    case 3:
+                    case 2:
                         //EndGameFraudulent();
                         break;
                     default:
@@ -110,7 +114,9 @@ public class EmailWindowUI : MonoBehaviour
         // The pieces are given by the order that the suspect pieces are placed in the array.
         SuspectData suspect = PhishingServerScript.Instance.GetHacker();
 
-        if(suspect != null)
+        Debug.Log("Reached here 1");
+
+        if (suspect != null)
         {
             switch (suspect.puzzlePieces[index])
             {
@@ -190,6 +196,7 @@ public class EmailWindowUI : MonoBehaviour
         // If no missing piece is found, return -1
         return -1;
     }
+
 
     public void SetEmailInfo(EmailData email)
     {

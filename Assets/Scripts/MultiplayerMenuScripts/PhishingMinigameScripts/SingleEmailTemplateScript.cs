@@ -30,6 +30,7 @@ public class SingleEmailTemplateScript : MonoBehaviour
 
     private bool isRead = false;
     private bool isFlagged = false;
+    private bool isAuthentic = false;
 
 
     private void Awake()
@@ -76,20 +77,36 @@ public class SingleEmailTemplateScript : MonoBehaviour
     
     public void MarkAsFlagged()
     {
-        if (isFlagged) 
-        {
-            //Change to not flagged = white background
-            Color whiteBackground = Color.white;
-            background.color = whiteBackground;
+        // There are 3 states: not flagged, flagged as fraud and flagged as authentic
+        // They change in this order
 
-        } else
+        // If is not flagged, then flag as fraud (red)
+        if (!isFlagged)
         {
-            //Change to flagged = red background
-            Color redBackground = Color.red;
-            background.color = redBackground;
+            // Change to flagged as fraud = red background
+            background.color = Color.red;
+
+            isFlagged = true;
+            isAuthentic = false;
         }
+        // If is flagged as fraud, then flag as authentic (green)
+        else if (isFlagged && !isAuthentic) 
+        {
+            // Change to flagged as authentic = green background
+            background.color = Color.green;
 
-        isFlagged = !isFlagged;
+            isFlagged = true;
+            isAuthentic = true;
+        }
+        // If is flagged as authentic, then de.flag (white)
+        else if (isFlagged && isAuthentic)
+        {
+            // Change to not flagged = white background
+            background.color = Color.white;
+
+            isFlagged = false;
+            isAuthentic = false;
+        }
     }
 
     public void MarkAsRead()

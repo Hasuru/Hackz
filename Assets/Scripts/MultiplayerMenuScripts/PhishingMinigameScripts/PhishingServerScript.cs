@@ -31,6 +31,12 @@ public class PhishingServerScript : NetworkBehaviour
     [Header("Suspect Related Container")]
     [SerializeField] private TextMeshProUGUI timerText;
 
+    [Header("Game End UI")]
+    [SerializeField] private GameObject finishUI;
+    [SerializeField] private GameObject badBackground;
+    [SerializeField] private GameObject goodBackground;
+    [SerializeField] private TextMeshProUGUI resultText;
+
     private List<EmailData> emailList = new List<EmailData>();
     private List <SuspectData> suspectList = new List<SuspectData>();
 
@@ -76,6 +82,7 @@ public class PhishingServerScript : NetworkBehaviour
         // Decide the suspect to find
         int randomIndex = UnityEngine.Random.Range(0, suspectList.Count);
         suspectList[randomIndex].isHacker = true;
+        Debug.Log(GetHacker().firstName + " " + GetHacker().lastName);
 
         // Populate the email list
         CreateEmailList();
@@ -136,17 +143,22 @@ public class PhishingServerScript : NetworkBehaviour
         Profile profile3 = new Profile("C", "c@gmail.com", 1, "12/12/2012");
         Profile profile4 = new Profile("D", "d@gmail.com", 1, "12/12/2012");
 
+        // Content fot the emails
+        string content1 = "authentic";
+        string content2 = "fraud";
+        string content3 = "bonus";
+
         // The emails for the email list
-        EmailData email1 = new EmailData(profile1, "subject1", "12/12/2024", "content1", EmailType.Authentic);
-        EmailData email2 = new EmailData(profile1, "subject2", "12/12/2024", "content2", EmailType.Authentic);
-        EmailData email3 = new EmailData(profile1, "subject3", "12/12/2024", "content3", EmailType.Authentic);
-        EmailData email4 = new EmailData(profile2, "subject4", "12/12/2024", "content4", EmailType.Authentic);
-        EmailData email5 = new EmailData(profile2, "subject5", "12/12/2024", "content5", EmailType.Fraudulent);
-        EmailData email6 = new EmailData(profile2, "subject6", "12/12/2024", "content6", EmailType.Fraudulent);
-        EmailData email7 = new EmailData(profile3, "subject7", "12/12/2024", "content7", EmailType.Fraudulent);
-        EmailData email8 = new EmailData(profile3, "subject8", "12/12/2024", "content8", EmailType.Bonus);
-        EmailData email9 = new EmailData(profile3, "subject9", "12/12/2024", "content9", EmailType.Bonus);
-        EmailData email10 = new EmailData(profile4, "subject10", "12/12/2024", "content10", EmailType.Bonus);
+        EmailData email1 = new EmailData(profile1, "subject1", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email2 = new EmailData(profile1, "subject2", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email3 = new EmailData(profile1, "subject3", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email4 = new EmailData(profile2, "subject4", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email5 = new EmailData(profile2, "subject5", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email6 = new EmailData(profile2, "subject6", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email7 = new EmailData(profile3, "subject7", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email8 = new EmailData(profile3, "subject8", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email9 = new EmailData(profile3, "subject9", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email10 = new EmailData(profile4, "subject10", "12/12/2024", content3, EmailType.Bonus);
 
         emailList.Add(email1);
         emailList.Add(email2);

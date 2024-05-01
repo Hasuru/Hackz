@@ -23,7 +23,6 @@ public class ComputerGeneralUI : MonoBehaviour
     [Header("PuzzleWindow UI")]
     [SerializeField] private GameObject puzzleWindowUI;
     [SerializeField] private Button minimizePuzzleBtn;
-    [SerializeField] private Button emailPuzzleBtn; // Task Bar Button
 
     private void Awake()
     {
@@ -56,6 +55,11 @@ public class ComputerGeneralUI : MonoBehaviour
         emailOpenBtn.onClick.AddListener(() =>
         {
             emailOpenWindowUI.SetActive(!emailOpenWindowUI.activeInHierarchy);
+        });
+
+        minimizePuzzleBtn.onClick.AddListener(() =>
+        {
+            puzzleWindowUI.SetActive(!puzzleWindowUI.activeInHierarchy);
         });
     }
 
