@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using SlimUI.ModernMenu;
+using GLTF.Schema;
 
 public class UIMainMenuManager : MonoBehaviour
 {
-    private Animator CameraObject;
+    private Animator CameraAnimator;
 
     [Header("MENUS")]
     [Tooltip("The Menu for when the MainMenu")]
@@ -60,7 +61,7 @@ public class UIMainMenuManager : MonoBehaviour
 
     void Start()
     {
-        CameraObject = transform.GetComponent<Animator>();
+        CameraAnimator = transform.GetComponent<Animator>();
 
         playMenu.SetActive(false);
         exitMenu.SetActive(false);
@@ -112,7 +113,7 @@ public class UIMainMenuManager : MonoBehaviour
 
     public void LoadMultiplayerLobbyScene()
     {
-        Loader.Load(Loader.Scene.LobbyListScene);
+        StartCoroutine(Position3AndLoadMultiplayer());
     }
 
     public void DisablePlayMenu()
@@ -123,12 +124,35 @@ public class UIMainMenuManager : MonoBehaviour
     public void Position2()
     {
         DisablePlayMenu();
-        CameraObject.SetFloat("Animate", 1);
+        CameraAnimator.SetFloat("Animate", 1);
+    }
+
+    IEnumerator Position3AndLoadMultiplayer()
+    {
+        CameraAnimator.SetFloat("Animate", -1);
+
+        // Get the duration of the animation
+        AnimationClip[] clips = CameraAnimator.runtimeAnimatorController.animationClips;
+        float animationDuration = 0;
+
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == "MenuCamPos3")
+            {
+                animationDuration = clip.length;
+                break;
+            }
+        }
+
+        // Wait for the duration of the animation
+        yield return new WaitForSeconds(animationDuration);
+
+        Loader.Load(Loader.Scene.LobbyListScene);
     }
 
     public void Position1()
     {
-        CameraObject.SetFloat("Animate", 0);
+        CameraAnimator.SetFloat("Animate", 0);
     }
 
     void DisablePanels()
