@@ -1,0 +1,11 @@
+Model Information:
+* title:	Robot Television
+* source:	https://sketchfab.com/3d-models/robot-television-3b870ac6f99d462a88baca5ab27ebc82
+* author:	cupencil (https://sketchfab.com/cupencil)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Robot Television" (https://sketchfab.com/3d-models/robot-television-3b870ac6f99d462a88baca5ab27ebc82) by cupencil (https://sketchfab.com/cupencil) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

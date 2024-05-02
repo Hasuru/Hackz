@@ -13,9 +13,7 @@ public class Loader
         LoadingScene, //Scene for when the game is loading
         LobbyListScene, //Scene for lobby creation and selection
         LobbyScene, //Scene for the pre-game lobby
-
-        GameShowTest,
-
+        TopicWheelScene, //Scene for the Topic Wheel
         PhishingTopicScene
     }
 

@@ -45,7 +45,7 @@ public class LobbyReady : NetworkBehaviour
         if (allClientsReady)
         {
             HackzGameLobby.Instance.DeleteLobby();
-            Loader.LoadNetwork(Loader.Scene.GameShowTest);
+            Loader.LoadNetwork(Loader.Scene.TopicWheelScene);
         }
     }
 

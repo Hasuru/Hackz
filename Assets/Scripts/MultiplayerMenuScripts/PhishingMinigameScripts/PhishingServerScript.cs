@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 /** PhishingServerScript
  * 
@@ -36,14 +36,55 @@ public class PhishingServerScript : NetworkBehaviour
     [SerializeField] private GameObject badBackground;
     [SerializeField] private GameObject goodBackground;
     [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private Button continueButton;
 
     private List<EmailData> emailList = new List<EmailData>();
     private List <SuspectData> suspectList = new List<SuspectData>();
+
+    private bool isGameRunning;
 
     private int fraudulentEmailsDownloaded;
     private int authenticEmailsDownloaded;
     private float totalTime = 300.0f; //5 minutes for now
     private float currentTime;
+
+
+    private void Awake()
+    {
+        Instance = this;
+
+        finishUI.SetActive(false);
+
+        emailList = new List<EmailData>();
+        fraudulentEmailsDownloaded = 0;
+        authenticEmailsDownloaded = 0;
+
+        continueButton.onClick.AddListener(() => {
+            Loader.Load(Loader.Scene.MainMenuScene);
+        });
+
+        isGameRunning = false;
+    }
+
+    private void Start()
+    {
+        isGameRunning = true;
+
+        // Populate the suspect list
+        CreateSuspectsList();
+
+        // Decide the suspect to find
+        int randomIndex = UnityEngine.Random.Range(0, suspectList.Count);
+        suspectList[randomIndex].isHacker = true;
+        Debug.Log(GetHacker().firstName + " " + GetHacker().lastName);
+
+        // Populate the email list
+        CreateEmailList();
+
+        // Timer countdown stuff
+        currentTime = totalTime;
+        StartCoroutine(CountdownTimer());
+    }
 
     public int FraudulentEmailsDownloaded()
     {
@@ -63,33 +104,6 @@ public class PhishingServerScript : NetworkBehaviour
     public void IncrementAuthentic()
     {
         authenticEmailsDownloaded++;
-    }
-
-    private void Awake()
-    {
-        Instance = this;
-
-        emailList = new List<EmailData>();
-        fraudulentEmailsDownloaded = 0;
-        authenticEmailsDownloaded = 0;
-    }
-
-    private void Start()
-    {
-        // Populate the suspect list
-        CreateSuspectsList();
-
-        // Decide the suspect to find
-        int randomIndex = UnityEngine.Random.Range(0, suspectList.Count);
-        suspectList[randomIndex].isHacker = true;
-        Debug.Log(GetHacker().firstName + " " + GetHacker().lastName);
-
-        // Populate the email list
-        CreateEmailList();
-
-        // Timer countdown stuff
-        currentTime = totalTime;
-        StartCoroutine(CountdownTimer());
     }
 
     public SuspectData GetHacker()
@@ -252,7 +266,7 @@ public class PhishingServerScript : NetworkBehaviour
     IEnumerator CountdownTimer()
     {
         // Run while timer isnt 0
-        while (currentTime > 0)
+        while (currentTime > 0 && isGameRunning)
         {
             UpdateTimerDisplay();
             yield return new WaitForSeconds(1.0f); // Stop, wait a sec
@@ -262,13 +276,41 @@ public class PhishingServerScript : NetworkBehaviour
         // When Timer reaches zero actions:
         currentTime = 0;
         UpdateTimerDisplay();
-        Debug.Log("Timer End");
+
+        if (isGameRunning)
+        {
+            EndGame(false);
+        }
     }
 
-    void UpdateTimerDisplay()
+    private void UpdateTimerDisplay()
     {
         int minutes = Mathf.FloorToInt(currentTime / 60);
         int seconds = Mathf.FloorToInt(currentTime % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    public void EndGame(bool success)
+    {
+        if(success)
+        {
+            isGameRunning = false;
+
+            badBackground.SetActive(false);
+            goodBackground.SetActive(true);
+            resultText.text = "Congratulations! You correctly identified the Hacker!";
+
+            finishUI.SetActive(true);
+        } 
+        else
+        {
+            isGameRunning = false;
+
+            goodBackground.SetActive(false);
+            badBackground.SetActive(true);
+            resultText.text = "Unfortunate... You'll get it next time";
+
+            finishUI.SetActive(true);
+        }
     }
 }

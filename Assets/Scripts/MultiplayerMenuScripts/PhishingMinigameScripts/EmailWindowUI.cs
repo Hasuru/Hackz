@@ -95,7 +95,7 @@ public class EmailWindowUI : MonoBehaviour
                         //SetDebuff();
                         break;
                     case 2:
-                        //EndGameFraudulent();
+                        PhishingServerScript.Instance.EndGame(false);
                         break;
                     default:
                         

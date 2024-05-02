@@ -28,10 +28,10 @@ public class SingleSuspectTemplateScript : MonoBehaviour
             {
                 if (associatedSuspect.isHacker)
                 {
-                    Debug.Log("Congratz!");
+                    PhishingServerScript.Instance.EndGame(true);
                 } else
                 {
-                    Debug.Log("You wrong dummie...");
+                    PhishingServerScript.Instance.EndGame(false);
                 }
             }
         });
