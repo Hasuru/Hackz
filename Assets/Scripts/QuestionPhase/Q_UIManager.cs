@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ public class Q_UIManager : MonoBehaviour
     public Q_GameManager GameManager { get { return _gameManager; } }
     [HideInInspector] Question _currentQuestion;
     public Question CurrentQuestion { get { return _currentQuestion; } set {} } 
+    [SerializeField] GameObject _mainCanvas;
+    [SerializeField] GameObject _ResultCanvas;
 
     [SerializeField] TextMeshProUGUI _timer;
     public TextMeshProUGUI Timer { get { return _timer; } }
@@ -26,9 +29,10 @@ public class Q_UIManager : MonoBehaviour
     public TextMeshProUGUI QuestionText { get { return _questionText; } }
     [SerializeField] TextMeshProUGUI _pointsText;
     public TextMeshProUGUI PointsText { get { return _pointsText; } }
+    [SerializeField] TextMeshProUGUI _finalScoreText;
+    public TextMeshProUGUI FinalScoreText { get { return _finalScoreText; } }
     [SerializeField] TextMeshProUGUI[] _answersText;
     public TextMeshProUGUI[] AnswersText { get { return _answersText; } }
-
     [SerializeField] TextMeshProUGUI[] _powerUpText;
     public TextMeshProUGUI[] PowerUpText { get { return _powerUpText; } }
 
@@ -65,6 +69,13 @@ public class Q_UIManager : MonoBehaviour
             _timer.color = Color.red;
         else
             _timer.color = Color.white; 
+    }
+
+    public void DisplayFinalScore()
+    {
+        _mainCanvas.SetActive(false);
+        _ResultCanvas.SetActive(true);
+        _finalScoreText.text = "Score: " +  _gameManager.Points.ToString();
     }
 
     public void ShowAnswerResultColor(int i, Color color)

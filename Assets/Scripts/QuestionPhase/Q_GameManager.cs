@@ -1,23 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Threading;
-using JetBrains.Annotations;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
-
-/*
-Color _red = new Color(255, 0, 0);
-Color _green = new Color(0, 255, 0);
-Color _cyan = new Color(0, 255, 255);
-Color _orange = new Color(255, 171, 0);
-Color _darkGrey = new Color(46, 46, 46);
-*/
 
 public class Q_GameManager : NetworkBehaviour
 {
@@ -28,15 +14,14 @@ public class Q_GameManager : NetworkBehaviour
     public GamePreferencesManager PrefsManager { get { return _prefsManager;} }
 
     [HideInInspector] int _points = 0;
-    public int Points { get { return _points; } set {} }
+    public int Points { get { return _points; } }
     [HideInInspector] int[] _powerUps = new int[2];
-    public int[] PowerUps { get { return _powerUps; } set {} }
+    public int[] PowerUps { get { return _powerUps; } }
     [HideInInspector] CategoryType _category = CategoryType.PHISHING;
-    public CategoryType Category { get { return _category; } set {} }
+    public CategoryType Category { get { return _category; } }
 
     [HideInInspector] GameState _gameState;
     [HideInInspector] Question[] _questions;
-    [HideInInspector] HashSet<int> _questionsSet = new HashSet<int>();
     [HideInInspector] Question _currentQuestion;
     [HideInInspector] int _currentAnswer;
     [HideInInspector] float _timer;
@@ -47,6 +32,10 @@ public class Q_GameManager : NetworkBehaviour
     [Header("User Interface")]
     [SerializeField] private GameObject loadingUI;
 
+    public void SetPoints(int pts) { _points = pts; }
+    public void SetTimePU(int qnt) { _powerUps[0] = qnt; }
+    public void SetCutPU(int qnt) { _powerUps[1] = qnt; }
+    public void SetCategory(CategoryType type) { _category = type; }
 
     /// <summary>
     /// Fetches Questions and loads the first Question
@@ -118,8 +107,10 @@ public class Q_GameManager : NetworkBehaviour
                 break;
             
             case GameState.FINISHED:
+                StartCoroutine(EndScene());
+                break;
+            case GameState.TERMINATED:
                 Loader.LoadNetwork(Loader.Scene.TopicWheelScene);
-                Debug.Log("Finished");
                 break;
         }
     }
@@ -132,17 +123,8 @@ public class Q_GameManager : NetworkBehaviour
     {
         _gameState = GameState.CHOOSING;
         questionCount++;
-        
-        // Select new Question ID and check until a not already used question is found
-        /*do
-        {
-            rand = Random.Range(0, _questions.Length-1);
-            Debug.Log(rand);
-        } while(!_questionsSet.Contains(rand));*/
 
-        // Update question information on the list & map
         _currentQuestion = _questions[rand++];
-        _questionsSet.Remove(rand);
 
         _uiManager.Show(_currentQuestion);
         _currentAnswer = -1;
@@ -164,10 +146,6 @@ public class Q_GameManager : NetworkBehaviour
             _questions = Resources.LoadAll<Question>("QPassword");
         else
             return;
-
-        // Load Set information (keeps track of which question is not yet used)
-        for (int i = 0; i < _questions.Length; i++)
-            _questionsSet.Add(i);
     }
 
     /// <summary>
@@ -237,6 +215,21 @@ public class Q_GameManager : NetworkBehaviour
         
         StartCoroutine(ChangeState(GameState.SWITCH, 3));
     }
+
+    private IEnumerator EndScene()
+    {
+        string category;
+        if (_category == CategoryType.PASSWORD)
+            category = "PHISHING";
+        else
+            category = "PASSWORD";
+
+        _prefsManager.SavePrefs(_points, category, _powerUps[0], _powerUps[1]);
+        _uiManager.DisplayFinalScore();
+        _gameState = GameState.TERMINATED;
+        yield return new WaitForSeconds(3);
+        // SwitchScenes
+    } 
 
     /// <summary>
     /// Loads new Question if the Question count hasn't reached its limit, otherwise changes Game to a FINISHED State
