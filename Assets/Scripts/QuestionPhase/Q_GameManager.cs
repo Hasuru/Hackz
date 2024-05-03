@@ -28,12 +28,11 @@ public class Q_GameManager : MonoBehaviour
     public int Points { get { return _points; } set {} }
     [HideInInspector] int[] _powerUps = new int[2];
     public int[] PowerUps { get { return _powerUps; } set {} }
-    [HideInInspector] CategoryType _category = CategoryType.PHISHING;
+    [HideInInspector] CategoryType _category = CategoryType.PASSWORD;
     public CategoryType Category { get { return _category; } set {} }
 
     [HideInInspector] GameState _gameState;
     [HideInInspector] Question[] _questions;
-    [HideInInspector] HashSet<int> _questionsSet = new HashSet<int>();
     [HideInInspector] Question _currentQuestion;
     [HideInInspector] int _currentAnswer;
     [HideInInspector] float _timer;
@@ -86,7 +85,7 @@ public class Q_GameManager : MonoBehaviour
                 break;
             
             case GameState.FINISHED:
-                Debug.Log("Finished");
+                StartCoroutine(EndScene());
                 break;
         }
     }
@@ -99,17 +98,8 @@ public class Q_GameManager : MonoBehaviour
     {
         _gameState = GameState.CHOOSING;
         questionCount++;
-        
-        // Select new Question ID and check until a not already used question is found
-        /*do
-        {
-            rand = Random.Range(0, _questions.Length-1);
-            Debug.Log(rand);
-        } while(!_questionsSet.Contains(rand));*/
 
-        // Update question information on the list & map
         _currentQuestion = _questions[rand++];
-        _questionsSet.Remove(rand);
 
         _uiManager.Show(_currentQuestion);
         _currentAnswer = -1;
@@ -131,10 +121,6 @@ public class Q_GameManager : MonoBehaviour
             _questions = Resources.LoadAll<Question>("QPassword");
         else
             return;
-
-        // Load Set information (keeps track of which question is not yet used)
-        for (int i = 0; i < _questions.Length; i++)
-            _questionsSet.Add(i);
     }
 
     /// <summary>
@@ -204,6 +190,13 @@ public class Q_GameManager : MonoBehaviour
         
         StartCoroutine(ChangeState(GameState.SWITCH, 3));
     }
+
+    private IEnumerator EndScene()
+    {
+        _uiManager.DisplayFinalScore();
+        yield return new WaitForSeconds(3);
+        // SwitchScenes
+    } 
 
     /// <summary>
     /// Loads new Question if the Question count hasn't reached its limit, otherwise changes Game to a FINISHED State
