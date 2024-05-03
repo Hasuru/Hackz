@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9dd48f1de7b2834fa43a016a4691826, type: 3}
   m_Name: P1
   m_EditorClassIdentifier: 
-  initialPassword: ab
-  scannedPassword: bc
-  finalPassword: cd
+  initialPassword: HelloWorld
+  scannedPassword: HalwoeA!23
+  finalPassword: '%egsApEL76'
   protocols:
   - {r: 0.40784317, g: 0.6156863, b: 0.4156863, a: 0}
-  - {r: 0.69411767, g: 0.38431376, b: 0.5254902, a: 0}
-  - {r: 0.40784317, g: 0.6156863, b: 0.4156863, a: 0}
+  - {r: 0.8, g: 0.14117648, b: 0.11372549, a: 0}
+  - {r: 0.84313726, g: 0.6, b: 0.12941177, a: 0}
