@@ -29,6 +29,7 @@ public class CutsceneManager : NetworkBehaviour
 
         dialogueCount = 0;
         isGameLoaded = false;
+
         loadingUI.SetActive(true);
         dialogueUI.SetActive(false);
 
@@ -66,12 +67,14 @@ public class CutsceneManager : NetworkBehaviour
     [ClientRpc]
     private void SetInitialSettingsClientRpc()
     {
-        loadingUI.SetActive(false);
         StartCoroutine(PositionInitialCamera());
     }
 
+
     IEnumerator PositionInitialCamera()
     {
+        loadingUI.SetActive(false);
+
         animator.SetTrigger("Cutscene");
 
         // Get the duration of the animation
@@ -95,7 +98,7 @@ public class CutsceneManager : NetworkBehaviour
 
     private void StartDialogue()
     {
-        dialogueText.text = "First Text";
+        dialogueText.text = "Hellow! I'm your host for today's Show, mister Purrsky, and welcome to Hackz, the Quiz Show!";
 
         dialogueUI.SetActive(true);
         isGameLoaded = true;
@@ -107,11 +110,11 @@ public class CutsceneManager : NetworkBehaviour
         switch (dialogueCount)
         {
             case 0: 
-                dialogueText.text = "Second Text";
+                dialogueText.text = "Shall we start? I'll be counting the points you acquire along the game, and you'll be able to see them at any time in your screen.";
                 dialogueCount++;
                 break;
             case 1:
-                dialogueText.text = "Third Text";
+                dialogueText.text = "Well then, let's do this! Good Luck!";
                 dialogueCount++;
                 break;
             case 2:
@@ -145,5 +148,11 @@ public class CutsceneManager : NetworkBehaviour
         yield return new WaitForSeconds(animationDuration + 0.5f);
 
         Loader.LoadNetwork(Loader.Scene.TopicWheelScene);
+    }
+
+    public void OnDestroy()
+    {
+        // NetworkManager has a longer life cycle, so unsub from it
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= CutsceneManager_OnLoadEventCompleted;
     }
 }
