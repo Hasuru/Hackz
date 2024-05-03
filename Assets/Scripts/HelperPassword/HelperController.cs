@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class HelperController : MonoBehaviour
 {
-    [SerializeField] Sprite[] protocols;
+    [SerializeField] GameObject decryptorPage;
+    [SerializeField] GameObject helperPage;
     [SerializeField] Image currentProtocol;
+    [SerializeField] Sprite[] protocols;
 
     private int protocolIndex = 0;
 
@@ -16,6 +18,12 @@ public class HelperController : MonoBehaviour
             UpdateProtocol(1);
         else if (Input.GetKeyDown(KeyCode.A))
             UpdateProtocol(-1);
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            helperPage.SetActive(false);
+            decryptorPage.SetActive(true);
+        }
+            
     }
 
     public void UpdateProtocol(int direction)
