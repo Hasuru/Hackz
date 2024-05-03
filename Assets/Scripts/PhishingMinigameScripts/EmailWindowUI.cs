@@ -107,7 +107,7 @@ public class EmailWindowUI : MonoBehaviour
                         PhishingServerScript.Instance.IncrementFraudulent();
                         break;
                     case 2:
-                        PhishingServerScript.Instance.EndGame(false);
+                        PhishingServerScript.Instance.EndGameServerRpc(false);
                         PhishingServerScript.Instance.IncrementFraudulent();
                         break;
                     default:

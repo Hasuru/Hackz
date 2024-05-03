@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /** PhishingServerScript
@@ -28,8 +29,13 @@ public class PhishingServerScript : NetworkBehaviour
     [SerializeField] private Transform suspectContainer;
     [SerializeField] private Transform suspectSingleTemplate;
 
-    [Header("Suspect Related Container")]
+    [Header("TaskBar UI")]
     [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("Game Related UI")]
+    [SerializeField] private GameObject loadingUI;
+    [SerializeField] private GameObject serverUI;
+    [SerializeField] private GameObject clientUI;
 
     [Header("Game End UI")]
     [SerializeField] private GameObject finishUI;
@@ -45,7 +51,7 @@ public class PhishingServerScript : NetworkBehaviour
 
     private int fraudulentEmailsDownloaded;
     private int authenticEmailsDownloaded;
-    private float totalTime = 3.0f; //5 minutes for now
+    private float totalTime = 300.0f; //5 minutes for now
     private float currentTime;
 
 
@@ -54,14 +60,13 @@ public class PhishingServerScript : NetworkBehaviour
         Instance = this;
 
         finishUI.SetActive(false);
+        loadingUI.SetActive(true);
+        serverUI.SetActive(false);
+        clientUI.SetActive(false); 
 
         emailList = new List<EmailData>();
         fraudulentEmailsDownloaded = 0;
         authenticEmailsDownloaded = 0;
-
-        continueButton.onClick.AddListener(() => {
-            Loader.Load(Loader.Scene.MainMenuScene);
-        });
 
         isGameRunning = false;
     }
@@ -81,10 +86,41 @@ public class PhishingServerScript : NetworkBehaviour
         // Populate the email list
         CreateEmailList();
 
-        // Timer countdown stuff
+        // Timer countdown start
         currentTime = totalTime;
         StartCoroutine(CountdownTimer());
     }
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            // When all of the clients have loaded
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += PhishingMinigame_OnLoadEventCompleted;
+        }
+
+    }
+
+    private void PhishingMinigame_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        SetInitialSettingsClientRpc();
+    }
+
+    [ClientRpc]
+    private void SetInitialSettingsClientRpc()
+    {
+        if(IsServer)
+        {
+            serverUI.SetActive(true);
+        } 
+        else
+        {
+            clientUI.SetActive(true);
+        }
+
+        loadingUI.SetActive(false);
+    }
+
 
     public int FraudulentEmailsDownloaded()
     {
@@ -165,27 +201,37 @@ public class PhishingServerScript : NetworkBehaviour
     private void CreateEmailInfoStatic()
     {
         // The email accounts for the emails
-        Profile profile1 = new Profile("A", "a@gmail.com", 1, "12/12/2012");
-        Profile profile2 = new Profile("B", "b@gmail.com", 1, "12/12/2012");
-        Profile profile3 = new Profile("C", "c@gmail.com", 1, "12/12/2012");
-        Profile profile4 = new Profile("D", "d@gmail.com", 1, "12/12/2012");
+        Profile profile1 = new Profile("Usher Williams", "ushush_will@gmail.com", 1, "12/12/2012");
+        Profile profile2 = new Profile("Beatrice Carter", "bea_carter@gmail.com", 1, "12/12/2015");
+        Profile profile3 = new Profile("Caroline Audeline", "double_line@gmail.com", 1, "12/12/2013");
+        Profile profile4 = new Profile("Ken Thompson", "mister_thompson@gmail.com", 1, "12/10/2012");
+
+        Profile profile5 = new Profile("Ken Thompson", "asdolqLD908ED0@gmail.com", 1, "03/03/2024");
+        Profile profile6 = new Profile("Beatrice", "beatrice_carter@gmail.com", 1, "03/05/2024");
+        Profile profile7 = new Profile("Unkown", "double_line@discartable.com", 1, "12/12/2019");
+
+        Profile profile8 = new Profile("GameStop", "gamestop_support@gs.com", 1, "12/12/2012");
+        Profile profile9 = new Profile("Gmail", "google_mail@gmail.com", 1, "12/12/2015");
+
 
         // Content fot the emails
-        string content1 = "authentic";
-        string content2 = "fraud";
-        string content3 = "bonus";
+        string content1 = "Hello, I was told to talk to you about this case. Please see the attachment.";
+
+        string content2 = "Hey Detective, I'm sending you an importance piece for this case.";
+
+        string content3 = "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"";
 
         // The emails for the email list
-        EmailData email1 = new EmailData(1, profile1, "subject1", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email2 = new EmailData(2, profile1, "subject2", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email3 = new EmailData(3, profile1, "subject3", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email4 = new EmailData(4, profile2, "subject4", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email5 = new EmailData(5, profile2, "subject5", "12/12/2024", content2, EmailType.Fraudulent);
-        EmailData email6 = new EmailData(6, profile2, "subject6", "12/12/2024", content2, EmailType.Fraudulent);
-        EmailData email7 = new EmailData(7, profile3, "subject7", "12/12/2024", content2, EmailType.Fraudulent);
-        EmailData email8 = new EmailData(8, profile3, "subject8", "12/12/2024", content3, EmailType.Bonus);
-        EmailData email9 = new EmailData(9, profile3, "subject9", "12/12/2024", content3, EmailType.Bonus);
-        EmailData email10 = new EmailData(10, profile4, "subject10", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email1 = new EmailData(1, profile1, "Related to Case", "12/12/2024", content2, EmailType.Authentic);
+        EmailData email2 = new EmailData(2, profile2, "Related to Case", "12/12/2024", content2, EmailType.Authentic);
+        EmailData email3 = new EmailData(3, profile3, "Related to Case", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email4 = new EmailData(4, profile4, "Related to Case", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email5 = new EmailData(5, profile5, "Related to Case", "12/12/2024", content1, EmailType.Fraudulent);
+        EmailData email6 = new EmailData(6, profile6, "Related to Case", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email7 = new EmailData(7, profile7, "Related to Case", "12/12/2024", content1, EmailType.Fraudulent);
+        EmailData email8 = new EmailData(8, profile8, "GameStop Support", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email9 = new EmailData(9, profile9, "Gmail Updates", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email10 = new EmailData(10, profile9, "Gmail Terms of Service", "12/12/2024", content3, EmailType.Bonus);
 
         emailList.Add(email1);
         emailList.Add(email2);
@@ -292,7 +338,7 @@ public class PhishingServerScript : NetworkBehaviour
 
         if (isGameRunning)
         {
-            EndGame(false);
+            EndGameServerRpc(false);
         }
     }
 
@@ -303,7 +349,14 @@ public class PhishingServerScript : NetworkBehaviour
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    public void EndGame(bool success)
+    [ServerRpc(RequireOwnership = false)]
+    public void EndGameServerRpc(bool success)
+    {
+        EndGameClientRpc(success);
+    }
+
+    [ClientRpc]
+    public void EndGameClientRpc(bool success)
     {
         if(success)
         {
@@ -312,8 +365,6 @@ public class PhishingServerScript : NetworkBehaviour
             badBackground.SetActive(false);
             goodBackground.SetActive(true);
             resultText.text = "Congratulations! You correctly identified the Hacker!";
-
-            finishUI.SetActive(true);
         } 
         else
         {
@@ -322,14 +373,30 @@ public class PhishingServerScript : NetworkBehaviour
             goodBackground.SetActive(false);
             badBackground.SetActive(true);
             resultText.text = "Unfortunate... You'll get it next time";
-
-            finishUI.SetActive(true);
         }
+
+        if (IsServer)
+        {
+            continueButton.onClick.AddListener(() =>
+            {
+                Loader.LoadNetwork(Loader.Scene.QuestionPhase);
+            });
+
+            continueButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            continueButton.gameObject.SetActive(false);
+        }
+
+        finishUI.SetActive(true);
     }
 
 
-    public void ContinueToQuestionPhase()
+
+    public void OnDestroy()
     {
-        Loader.LoadNetwork(Loader.Scene.QuestionPhase);
+        // NetworkManager has a longer life cycle, so unsub from it
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= PhishingMinigame_OnLoadEventCompleted;
     }
 }

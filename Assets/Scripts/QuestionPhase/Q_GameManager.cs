@@ -4,9 +4,11 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Threading;
 using JetBrains.Annotations;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 
 /*
 Color _red = new Color(255, 0, 0);
@@ -16,7 +18,7 @@ Color _orange = new Color(255, 171, 0);
 Color _darkGrey = new Color(46, 46, 46);
 */
 
-public class Q_GameManager : MonoBehaviour
+public class Q_GameManager : NetworkBehaviour
 {
     [Header("Managers")]
     [SerializeField] Q_UIManager _uiManager;
@@ -41,6 +43,10 @@ public class Q_GameManager : MonoBehaviour
     private int questionCount = 0;
     private int rand = 0;
 
+    [Header("User Interface")]
+    [SerializeField] private GameObject loadingUI;
+
+
     /// <summary>
     /// Fetches Questions and loads the first Question
     /// </summary>
@@ -50,6 +56,31 @@ public class Q_GameManager : MonoBehaviour
         FetchQuestions();
         LoadNewQuestion();
         _uiManager.UpdatePowerUp();
+    }
+
+    private void Awake()
+    {
+        loadingUI.SetActive(true);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            // When all of the clients have loaded
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += QuestionPhase_OnLoadEventCompleted;
+        }
+    }
+
+    private void QuestionPhase_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        SetInitialSettingsClientRpc();
+    }
+
+    [ClientRpc]
+    private void SetInitialSettingsClientRpc()
+    {
+        loadingUI.SetActive(false);
     }
 
     public void OnApplicationQuit()
@@ -86,6 +117,7 @@ public class Q_GameManager : MonoBehaviour
                 break;
             
             case GameState.FINISHED:
+                Loader.LoadNetwork(Loader.Scene.TopicWheelScene);
                 Debug.Log("Finished");
                 break;
         }

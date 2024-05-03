@@ -1,10 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
 using SlimUI.ModernMenu;
-using GLTF.Schema;
 
 public class UIMainMenuManager : MonoBehaviour
 {

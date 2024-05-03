@@ -28,10 +28,10 @@ public class SingleSuspectTemplateScript : MonoBehaviour
             {
                 if (associatedSuspect.isHacker)
                 {
-                    PhishingServerScript.Instance.EndGame(true);
+                    PhishingServerScript.Instance.EndGameServerRpc(true);
                 } else
                 {
-                    PhishingServerScript.Instance.EndGame(false);
+                    PhishingServerScript.Instance.EndGameServerRpc(false);
                 }
             }
         });

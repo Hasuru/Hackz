@@ -18,8 +18,6 @@ public class CutsceneManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject loadingUI;
 
-    public event EventHandler OnGameLoaded;
-
     private bool isGameLoaded;
     private int dialogueCount;
 
