@@ -25,11 +25,11 @@ public class Q_GameManager : MonoBehaviour
     public GamePreferencesManager PrefsManager { get { return _prefsManager;} }
 
     [HideInInspector] int _points = 0;
-    public int Points { get { return _points; } set {} }
+    public int Points { get { return _points; } }
     [HideInInspector] int[] _powerUps = new int[2];
-    public int[] PowerUps { get { return _powerUps; } set {} }
-    [HideInInspector] CategoryType _category = CategoryType.PASSWORD;
-    public CategoryType Category { get { return _category; } set {} }
+    public int[] PowerUps { get { return _powerUps; } }
+    [HideInInspector] CategoryType _category = CategoryType.PHISHING;
+    public CategoryType Category { get { return _category; } }
 
     [HideInInspector] GameState _gameState;
     [HideInInspector] Question[] _questions;
@@ -39,6 +39,11 @@ public class Q_GameManager : MonoBehaviour
     private bool alreadyUsed = false;
     private int questionCount = 0;
     private int rand = 0;
+
+    public void SetPoints(int pts) { _points = pts; }
+    public void SetTimePU(int qnt) { _powerUps[0] = qnt; }
+    public void SetCutPU(int qnt) { _powerUps[1] = qnt; }
+    public void SetCategory(CategoryType type) { _category = type; }
 
     /// <summary>
     /// Fetches Questions and loads the first Question
@@ -86,6 +91,9 @@ public class Q_GameManager : MonoBehaviour
             
             case GameState.FINISHED:
                 StartCoroutine(EndScene());
+                break;
+            case GameState.TERMINATED:
+                Application.Quit();
                 break;
         }
     }
@@ -193,7 +201,15 @@ public class Q_GameManager : MonoBehaviour
 
     private IEnumerator EndScene()
     {
+        string category;
+        if (_category == CategoryType.PASSWORD)
+            category = "PHISHING";
+        else
+            category = "PASSWORD";
+
+        _prefsManager.SavePrefs(_points, category, _powerUps[0], _powerUps[1]);
         _uiManager.DisplayFinalScore();
+        _gameState = GameState.TERMINATED;
         yield return new WaitForSeconds(3);
         // SwitchScenes
     } 
