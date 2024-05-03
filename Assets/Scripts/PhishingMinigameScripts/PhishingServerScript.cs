@@ -45,7 +45,7 @@ public class PhishingServerScript : NetworkBehaviour
 
     private int fraudulentEmailsDownloaded;
     private int authenticEmailsDownloaded;
-    private float totalTime = 300.0f; //5 minutes for now
+    private float totalTime = 3.0f; //5 minutes for now
     private float currentTime;
 
 
@@ -106,6 +106,19 @@ public class PhishingServerScript : NetworkBehaviour
         authenticEmailsDownloaded++;
     }
 
+    public void ChangeEmailDownloadInfo(EmailData email)
+    {
+        foreach (EmailData emailData in emailList)
+        {
+            if (emailData.id == email.id)
+            {
+                // Update the download value so we cant download again
+                emailData.hasBeenDownloaded = true;
+                break;
+            }
+        }
+    }
+
     public SuspectData GetHacker()
     {
         foreach (SuspectData suspect in suspectList)
@@ -163,16 +176,16 @@ public class PhishingServerScript : NetworkBehaviour
         string content3 = "bonus";
 
         // The emails for the email list
-        EmailData email1 = new EmailData(profile1, "subject1", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email2 = new EmailData(profile1, "subject2", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email3 = new EmailData(profile1, "subject3", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email4 = new EmailData(profile2, "subject4", "12/12/2024", content1, EmailType.Authentic);
-        EmailData email5 = new EmailData(profile2, "subject5", "12/12/2024", content2, EmailType.Fraudulent);
-        EmailData email6 = new EmailData(profile2, "subject6", "12/12/2024", content2, EmailType.Fraudulent);
-        EmailData email7 = new EmailData(profile3, "subject7", "12/12/2024", content2, EmailType.Fraudulent);
-        EmailData email8 = new EmailData(profile3, "subject8", "12/12/2024", content3, EmailType.Bonus);
-        EmailData email9 = new EmailData(profile3, "subject9", "12/12/2024", content3, EmailType.Bonus);
-        EmailData email10 = new EmailData(profile4, "subject10", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email1 = new EmailData(1, profile1, "subject1", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email2 = new EmailData(2, profile1, "subject2", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email3 = new EmailData(3, profile1, "subject3", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email4 = new EmailData(4, profile2, "subject4", "12/12/2024", content1, EmailType.Authentic);
+        EmailData email5 = new EmailData(5, profile2, "subject5", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email6 = new EmailData(6, profile2, "subject6", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email7 = new EmailData(7, profile3, "subject7", "12/12/2024", content2, EmailType.Fraudulent);
+        EmailData email8 = new EmailData(8, profile3, "subject8", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email9 = new EmailData(9, profile3, "subject9", "12/12/2024", content3, EmailType.Bonus);
+        EmailData email10 = new EmailData(10, profile4, "subject10", "12/12/2024", content3, EmailType.Bonus);
 
         emailList.Add(email1);
         emailList.Add(email2);
@@ -312,5 +325,11 @@ public class PhishingServerScript : NetworkBehaviour
 
             finishUI.SetActive(true);
         }
+    }
+
+
+    public void ContinueToQuestionPhase()
+    {
+        Loader.LoadNetwork(Loader.Scene.QuestionPhase);
     }
 }

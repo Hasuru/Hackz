@@ -15,7 +15,9 @@ public class Loader
         LobbyScene, //Scene for the pre-game lobby
         BeginGameCutScene, //Scene for the Initial Cutscene
         TopicWheelScene, //Scene for the Topic Wheel
-        PhishingTopicScene
+        DecryptorPassword, //Scene for the Password Minigame
+        PhishingTopicScene, //Scene for the Phishing Minigame
+        QuestionPhase //Scene for the Question Phase
     }
 
 

@@ -44,6 +44,16 @@ public class EmailWindowUI : MonoBehaviour
         attachmentButton.onClick.AddListener(() =>
         {
             DownloadAttachment();
+            
+            // Stop from downloading attachment again while email is opened
+            attachmentButton.gameObject.SetActive(false);
+            Color newColor = new Color(1f, 1f, 1f, 0.2f);
+            attachmentButton.gameObject.GetComponent<Image>().color = newColor;
+            attachmentButton.interactable = false;
+            attachmentButton.gameObject.SetActive(true);
+
+            // Change the email's download related attribute
+            PhishingServerScript.Instance.ChangeEmailDownloadInfo(associatedEmail);
         });
     }
 
@@ -90,15 +100,18 @@ public class EmailWindowUI : MonoBehaviour
                 {
                     case 0:
                         SetFraudPiece();
+                        PhishingServerScript.Instance.IncrementFraudulent();
                         break;
                     case 1:
                         //SetDebuff();
+                        PhishingServerScript.Instance.IncrementFraudulent();
                         break;
                     case 2:
                         PhishingServerScript.Instance.EndGame(false);
+                        PhishingServerScript.Instance.IncrementFraudulent();
                         break;
                     default:
-                        
+                        PhishingServerScript.Instance.IncrementFraudulent();
                         break;
                 }
             }
@@ -210,7 +223,7 @@ public class EmailWindowUI : MonoBehaviour
         contentText.text = email.content;
 
         // Alter Attachment button visability
-        if (email.hasAttachment)
+        if (email.hasAttachment && !email.hasBeenDownloaded)
         {
             Color newColor = new Color(1f, 1f, 1f, 1f);
             attachmentButton.gameObject.GetComponent<Image>().color = newColor;

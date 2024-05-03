@@ -178,7 +178,6 @@ MonoBehaviour:
   fortuneWheel: {fileID: 1709097891}
   resultLabel: {fileID: 180742060}
   spinButton: {fileID: 442443166}
-  loadingUI: {fileID: 334155984}
 --- !u!114 &114190662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +415,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334155985}
+  - component: {fileID: 334155986}
   m_Layer: 5
   m_Name: LoadingUI
   m_TagString: Untagged
@@ -444,6 +444,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &334155986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334155984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 235907872
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &395194424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2168,7 +2189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doubleChance: 1
   wheelSize: 8.2
-  wheelSpeed: 360
+  wheelSpeed: 126
   sliceThickness: 1.56
   labelRotation: 180
   iconOffset: 0
@@ -2180,13 +2201,13 @@ MonoBehaviour:
   font: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   pointerPositionIndex: 3
   slices:
-  - label: 1
+  - label: Password
     labelColor: {r: 0, g: 0, b: 0, a: 1}
     fontSize: 5
     showLabelInWheel: 1
     fillColor: {r: 0.24177286, g: 0.78248745, b: 0.87169814, a: 1}
     icon: {fileID: 0}
-  - label: 2
+  - label: Phishing
     labelColor: {r: 0, g: 0, b: 0, a: 1}
     fontSize: 5
     showLabelInWheel: 1
