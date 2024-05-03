@@ -144,6 +144,6 @@ public class CutsceneManager : NetworkBehaviour
         // Wait for the duration of the animation
         yield return new WaitForSeconds(animationDuration + 0.5f);
 
-        Loader.Load(Loader.Scene.TopicWheelScene);
+        Loader.LoadNetwork(Loader.Scene.TopicWheelScene);
     }
 }
