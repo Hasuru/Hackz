@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbyScene.unity
     guid: 48ff856582557594bb1d0fbddd54c0c5
   - enabled: 1
+    path: Assets/Scenes/BeginGameCutScene.unity
+    guid: 573c66d30a287c245a19e7dce7cfaf56
+  - enabled: 1
     path: Assets/Scenes/TopicWheelScene.unity
     guid: 700326f23b11e77438e77b29be159447
   - enabled: 1
