@@ -15,7 +15,7 @@ public class FortuneWheelManager_Custom : NetworkBehaviour
     [SerializeField] private Button spinButton;
 
     [Header("User Interface")]
-    [SerializeField] private GameObject loadingUI;
+    //[SerializeField] private GameObject loadingUI;
 
     private bool isSceneLoaded;
 
@@ -25,16 +25,12 @@ public class FortuneWheelManager_Custom : NetworkBehaviour
 
         isSceneLoaded = false;
 
+        //loadingUI.SetActive(true);
+
         spinButton.onClick.AddListener(() =>
         {
                 SpinServerRpc();
         });
-
-        // Destroy the Lobby instance, as it is no longer needed I guess
-        if (HackzGameLobby.Instance != null)
-        {
-            Destroy(HackzGameLobby.Instance.gameObject);
-        }
     }
 
 
@@ -50,14 +46,13 @@ public class FortuneWheelManager_Custom : NetworkBehaviour
 
     private void TopicScene_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-
         SetInitialSettingsClientRpc();
     }
 
     [ClientRpc]
     private void SetInitialSettingsClientRpc()
     {
-        loadingUI.SetActive(false);
+        //loadingUI.SetActive(false);
         isSceneLoaded = true;
     }
 
@@ -78,14 +73,19 @@ public class FortuneWheelManager_Custom : NetworkBehaviour
         print(fortuneWheel.GetLatestResult());
         yield return new WaitForSeconds(5);
 
-        if(fortuneWheel.GetLatestResult().CompareTo("1") == 0)
+        if(fortuneWheel.GetLatestResult().CompareTo("Password") == 0)
         {
             Loader.LoadNetwork(Loader.Scene.PhishingTopicScene);
         }
-        else if (fortuneWheel.GetLatestResult().CompareTo("2") == 0)
+        else if (fortuneWheel.GetLatestResult().CompareTo("Phishing") == 0)
         {
             Loader.LoadNetwork(Loader.Scene.PhishingTopicScene);
         }
     }
 
+    public void OnDestroy()
+    {
+        // NetworkManager has a longer life cycle, so unsub from it
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= TopicScene_OnLoadEventCompleted;
+    }
 }

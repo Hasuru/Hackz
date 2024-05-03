@@ -12,16 +12,19 @@ public enum EmailType
 
 public class EmailData
 {
+    public int id;
     public Profile profileData;
     public string subject;
     public string content;
     public string receivedDate;
     public bool hasAttachment;
     public EmailType type;
+    public bool hasBeenDownloaded;
 
 
-    public EmailData(Profile profileData, string subject, string receivedDate, string content, EmailType type) 
+    public EmailData(int id, Profile profileData, string subject, string receivedDate, string content, EmailType type) 
     {
+        this.id = id;
         this.profileData = profileData;
         this.subject = subject;
         this.content = content;
@@ -36,6 +39,8 @@ public class EmailData
         {
             this.hasAttachment = true;
         }
+
+        this.hasBeenDownloaded = false;
     }
 }
 

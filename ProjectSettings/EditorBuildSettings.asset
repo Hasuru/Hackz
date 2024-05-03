@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PhishingTopicScene.unity
     guid: b6b3769a658750b4e80ae8b5288af265
+  - enabled: 1
+    path: Assets/Scenes/QuestionPhase.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/DecryptorPassword.unity
+    guid: 2325056d82c340140a6e89099bc8954d
   m_configObjects: {}
