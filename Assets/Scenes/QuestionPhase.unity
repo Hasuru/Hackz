@@ -1956,6 +1956,7 @@ MonoBehaviour:
   - {fileID: 1830098243}
   - {fileID: 2143078335}
   _gameManager: {fileID: 871714416}
+  _mainCanvas: {fileID: 1746897981}
   _timer: {fileID: 1551728237}
   _questionCategory: {fileID: 1779185490}
   _questionText: {fileID: 154726341}

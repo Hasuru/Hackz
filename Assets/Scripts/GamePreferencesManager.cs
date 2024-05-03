@@ -22,14 +22,14 @@ public class GamePreferencesManager : MonoBehaviour
 
     public void LoadPrefs()
     {
-        _gameManager.Points = PlayerPrefs.GetInt(scoreKey, 0);
+        _gameManager.SetPoints(PlayerPrefs.GetInt(scoreKey, 0));
         _gameManager.PowerUps[0] = PlayerPrefs.GetInt(timePUKey, 0);
         _gameManager.PowerUps[1] = PlayerPrefs.GetInt(cutPUKey, 0);
 
         var category = PlayerPrefs.GetString(categoryKey, "PASSWORD");
         if (category.Equals("PASSWORD"))
-            _gameManager.Category = CategoryType.PASSWORD;
+            _gameManager.SetCategory(CategoryType.PASSWORD);
         else
-            _gameManager.Category = CategoryType.PHISHING;
+            _gameManager.SetCategory(CategoryType.PHISHING);
     }
 }

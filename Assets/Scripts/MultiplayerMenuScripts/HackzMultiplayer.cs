@@ -44,11 +44,6 @@ public class HackzMultiplayer : NetworkBehaviour
         playerDataNetworkList.OnListChanged += PlayerDataNetworkList_OnListChanged;
     }
 
-    private void Update()
-    {
-        Debug.Log(topic);
-    }
-
     public void ChangeTopic(string newTopic)
     {
         topic = newTopic;

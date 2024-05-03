@@ -2,15 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class DecryptorController : MonoBehaviour
+public class DecryptorController : NetworkBehaviour
 {
     [HideInInspector] Password password;
     [SerializeField] TMP_InputField passwordText;
     [SerializeField] Image[] protocols = new Image[3];
+
+    [Header("Related UI")]
+    [SerializeField] private GameObject serverUI;
+    [SerializeField] private GameObject loadingUI;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,28 @@ public class DecryptorController : MonoBehaviour
             tempColor.a = 1f;
             protocols[i].color = tempColor;
         }
+    }
+
+    private void Awake()
+    {
+        loadingUI.SetActive(true);
+        serverUI.SetActive(false);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            // When all of the clients have loaded
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += DecryptorController_OnLoadEventCompleted;
+        }
+
+    }
+
+    private void DecryptorController_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        loadingUI.SetActive(false);
+        serverUI.SetActive(true);
     }
 
     public void SubmitPassword()
@@ -49,5 +77,11 @@ public class DecryptorController : MonoBehaviour
     public void UpdatePassword(string s) 
     {
         passwordText.text = s;
+    }
+
+    public void OnDestroy()
+    {
+        // NetworkManager has a longer life cycle, so unsub from it
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= DecryptorController_OnLoadEventCompleted;
     }
 }
