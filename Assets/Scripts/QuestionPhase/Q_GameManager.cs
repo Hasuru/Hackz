@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -157,9 +158,9 @@ public class Q_GameManager : NetworkBehaviour
     public void FetchQuestions()
     {
         // Question Load
-        if (_category == CategoryType.PHISHING)
+        if (String.Compare(HackzMultiplayer.Instance.GetCurrentTopic(), "Phishing") == 0)
             _questions = Resources.LoadAll<Question>("QPhishing");
-        else if (_category == CategoryType.PASSWORD)
+        else if (String.Compare(HackzMultiplayer.Instance.GetCurrentTopic(), "Password") == 0)
             _questions = Resources.LoadAll<Question>("QPassword");
         else
             return;
@@ -205,7 +206,7 @@ public class Q_GameManager : NetworkBehaviour
         int index = -1;
         do
         {
-            index = Random.Range(0, _currentQuestion.Answers.Length - 1);
+            index = UnityEngine.Random.Range(0, _currentQuestion.Answers.Length - 1);
         } while (index == _currentQuestion.CorrectAnswerId);
 
         _uiManager.BlockButton(index);
@@ -263,5 +264,11 @@ public class Q_GameManager : NetworkBehaviour
     {
         yield return new WaitForSeconds(freezeTime);
         _gameState = state;
+    }
+
+    public void OnDestroy()
+    {
+        // NetworkManager has a longer life cycle, so unsub from it
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= QuestionPhase_OnLoadEventCompleted;
     }
 }

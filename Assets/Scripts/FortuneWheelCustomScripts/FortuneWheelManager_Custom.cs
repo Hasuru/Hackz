@@ -75,10 +75,12 @@ public class FortuneWheelManager_Custom : NetworkBehaviour
 
         if(fortuneWheel.GetLatestResult().CompareTo("Password") == 0)
         {
+            HackzMultiplayer.Instance.ChangeTopic("Password");
             Loader.LoadNetwork(Loader.Scene.PhishingTopicScene);
         }
         else if (fortuneWheel.GetLatestResult().CompareTo("Phishing") == 0)
         {
+            HackzMultiplayer.Instance.ChangeTopic("Phishing");
             Loader.LoadNetwork(Loader.Scene.PhishingTopicScene);
         }
     }

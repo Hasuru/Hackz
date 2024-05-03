@@ -19,6 +19,7 @@ public class HackzMultiplayer : NetworkBehaviour
 
     private NetworkList<MP_PlayerData> playerDataNetworkList;
     private string playerName;
+    private string topic;
 
     // Events for Client establishing connecting from LobbyListScene to LobbyScene
     public event EventHandler OnTryingToJoinGame;
@@ -35,11 +36,27 @@ public class HackzMultiplayer : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
 
         playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, "PlayerName" + UnityEngine.Random.Range(100, 1000));
+        topic = "None";
 
         // Initialize networkList here otherwise error
         playerDataNetworkList = new NetworkList<MP_PlayerData>();
         // Listen for NetworkList changed event
         playerDataNetworkList.OnListChanged += PlayerDataNetworkList_OnListChanged;
+    }
+
+    private void Update()
+    {
+        Debug.Log(topic);
+    }
+
+    public void ChangeTopic(string newTopic)
+    {
+        topic = newTopic;
+    }
+
+    public string GetCurrentTopic()
+    {
+        return topic;
     }
 
     private void PlayerDataNetworkList_OnListChanged(NetworkListEvent<MP_PlayerData> changeEvent)
